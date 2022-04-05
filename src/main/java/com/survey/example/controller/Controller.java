@@ -70,9 +70,9 @@ public class Controller {
 	   return "/mypage";
 	}
 	
-	@RequestMapping(value="/newsurvey")
+	@RequestMapping(value="/makesurvey")
 	public String newsurvey() {
-	   return "/newsurvey";
+	   return "/makesurvey";
 	}
 
 }
