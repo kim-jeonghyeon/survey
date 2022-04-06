@@ -1,5 +1,7 @@
 package com.survey.example.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -13,12 +15,14 @@ import com.survey.example.service.UserService;
 
 @org.springframework.stereotype.Controller
 public class Controller {
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired UserService userservice;
 	@Autowired PasswordEncoder passwordEncoder;
 	
 	@RequestMapping("/")
 	public String home(Model model) { 
-		return "/index";
+		return "/main";
 	}
    
    @RequestMapping("/beforeSignUp") 
@@ -71,8 +75,18 @@ public class Controller {
 	}
 	
 	@RequestMapping(value="/makesurvey")
-	public String newsurvey() {
+	public String makesurvey() {
 	   return "/makesurvey";
+	}
+	
+	@RequestMapping(value="/listsurvey")
+	public String listsurvey() {
+	   return "/listsurvey";
+	}
+	
+	@RequestMapping(value="/resultsurvey")
+	public String resultsurvey() {
+	   return "/resultsurvey";
 	}
 
 }

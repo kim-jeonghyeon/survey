@@ -13,228 +13,108 @@
 		padding: 0;
 	}
 	body{
+		width:100%;
+		height:100%;
 		background-color: #ede7f6;
 		position: relative;
-	}
-	.top{
-		width:100%;
-		height: 80px;
-		background-color: #fff;
-		border-bottom-style: solid;
 	}
 	h1{
 		text-align:center;
 		line-height:80px;
+		background-color:#fff;
 	}
-	
-	
-	.survey-title{
+	.t-survey{
 		width: 40%;
    	 	margin:30px auto;
    	 	background-color:#fff;
    	 	border-radius:5px;
    	 	border-left:5px solid #4285f4;
    	 	border-top:5px solid rgb(103, 58, 183);
-    }
-    .survey-title.click{
-    	border-left:5px solid #4285f4;
-    }
-	.title{
+	}
+	.survey{
+		border:none;
 		width:80%;
 		margin:30px 5%;
-		border-style: hidden hidden double;
 		font-size: 25px;
+		border-bottom:1px solid rgba(0,0,0,0.2);
 	}
-	.q{
+	.survey:focus{
+		outline:none;
+	}
+	.item{
 		width:38%;
 		height:100%;
 		background-color:#fff;
 		border-radius:5px;
-		margin:0px auto;
+		margin:2% auto;
 		padding:1%;
 		border-left:5px solid #4285f4;
 	}
-	.q::after{
+	.item::after{
 		content:'';
 		display:block;
 		clear:both;
 	}
-	.q.click{
-		border-left:5px solid #4285f4;
-	}
-	.q-top{
-		width:100%;
-		height:30%;
-	}
-	.q-top > input{
-		width:60%;
-		background-color: #f1f3f4;
-		border:0;
-		border-bottom:2px solid rgb(103, 58, 183);
-		font-size:25px;
-		text-align:center;
-		padding:10px;
-	}
-	.q_type{
-		width: 25%;
-	    font-size: 18px;
-	    font-weight: 500;
-	    padding: 10px;
-	    margin:10px;
-	    border: 2px solid rgba(0,0,0,0.2);
-	    border-radius: 5px;
-	}
-	
-	
-	.q-mid{
-		width:100%;
-		height:50%;
-		margin: 10px 0;
-	}
-	.mid-top{
-		width: 100%;
-    	height: 50px;
-	}
-	.mid-top::after{
-		content:'';
-		display:block;
-		clear:both;
-	}
-	.mid-top > span{
-		width: 2%;
-	    height: 70%;
-	    margin: 0 1%;
-	    float: left;
-	    font-weight: bold;
-	    font-size: 18px;
-	    line-height: 45px;
-	}
-	.option{
-		width:90%;
-		border:0;
-		float:left;
-		height:30px;
-		margin-top:10px;
-		display: inline-block;
-		position: relative;
-		font-size: 18px;
-	}
-	.option:after{
-		content:"";
-		position:absolute;
-		left:50%;
-		bottom:0;
-		width:0;
-		height:4px;
-		background-color: rgb(103,58,183);
-		transition: all 1s;
-	}
-	.option:before{
-		content:"";
-		position:absolute;
-		right:50%;
-		bottom:0;
-		width:0;
-		height:4px;
-		background-color: rgb(103,58,183);
-		transition: all 1s;
-	}
-	.option:hover::after{
-		width:50%;	
-	}
-	.option:hover::before{
-		width:50%;	
-	}
-	.option:focus{
-		outline:none;
-	}
-	.option-delete{
-		width:5%;
-		height:70%;
-		float:right;
-		border-radius:20px;
-		margin-top:1%;
-		border:0;
-		background-color:#fff;
-	}
-	.option-delete:hover{
+	.question{
+		width: 70%;
 		background-color: #f1f2f3;
-		cursor:pointer;
+		border:none;
+		border-bottom:2px solid rgb(103,58,183);
+		font-size:25px;
+		padding:10px;
+		float:left;
 	}
-	.mid-bottom{
-		width:100%;
-		heigtt:50px;
-	}
-	.mid-bottom::after{
-		content:'';
-		display:block;
-		clear:both;
-	}
-	.mid-bottom > span{
-		width: 2%;
-	    height: 70%;
-	    margin: 0 1%;
-	    float: left;
-	    font-weight: bold;
-	    font-size: 18px;
-	    line-height: 45px;
-	}
-	.addoption{
-		width: 12%;
-	    border: 0;
-	    float: left;
-	    height: 30px;
-	    margin-top: 10px;
-	    font-size: 18px;
-	    text-align: left;
-	    background-color: #fff;
-	    cursor: pointer;
-	}
-	.addoption:focus{
+	.question:focus{
 		outline:none;
 	}
-	
-	.q-bottom{
+	.q-option{
+		height: 40px;
+	    width: 20%;
+	    float: right;
+	    margin: 1%;
+	}
+	.i-bottom{
+		margin-top:3%;
+		border-top:2px solid rgba(0,0,0,0.2);
 		width:100%;
-		height:20%;
-		margin-top: 3%;
+		height:50px;
+		float:left;
 	}
-	.delete{
-		font-size:18px;
+	.d-question{
+		widht:30%;
+		height:50px;
+		margin: 1%;
 		float:right;
+		background-color: #fff;
+		padding: 1%;
+		border:1px solid rgba(0,0,0,0.2);
 		cursor:pointer;
-		border:none;
-		padding:1%;
-		transition:0.2s;
+		border-radius:5px;
+	}
+	.d-question:hover{
 		font-weight:bold;
-		background-color:#fff;
+		border:2px solid rgba(0,0,0,0.3);
 	}
-	.delete:hover{
-		background-color:#f1f2f3;
-		border:2px solid #000;
-		border-radius:10px;
-	}
-	
 	.navi{
-		position: absolute;
-	    right: 20%;
-	    background-color: #fff;
+		position:absolute;
+		top:75%;
+		right:20%;
+		background-color: #fff;
 	    width: 150px;
-	    top: 70%;
-	    height: 20%;
+	    height: 102px;
 	    border-radius: 10px;
 	    box-shadow: 3px 3px 3px 3px grey;
 	}
-	.add{
+	.a-question{
 		background-color: #fff;
 	    border: none;
 	    font-size: 18px;
 	    text-align: center;
 	    width: 100%;
-	    margin-top: 13%;
+	    margin-top: 18px;
 	    cursor: pointer;
 	}
-	.add:hover{
+	.a-question:hover{
 		font-weight:bold;
 		text-decoration:underline;
 	}
@@ -243,78 +123,126 @@
 	    border: none;
 	    font-size: 18px;
 	    width: 100%;
-	    margin-top: 13%;
-	    text-align: left;
+	    margin-top: 18px;
 	    cursor: pointer;
-	    text-indent: 12px;
+	    text-align: center;
 	}
 	.submit:hover{
 		font-weight:bold;
 		text-decoration:underline;
 	}
+	/* 보기 */
+	.example{
+		border:none;
+		font-size:18px;
+		margin: 3% 0;
+    	width: 80%;
+    	border-bottom:1px solid rgba(0,0,0,0.3);
+    	transition:0.2s;
+	}
+	.example:focus{
+		outline:none;
+	}
+	.example:hover{
+		border-bottom:2px solid rgba(103, 58, 183, 0.4);
+	}
+	/* 보기삭제  */
+	.d-example{
+		background-color: #fff;
+	    border-radius: 10px;
+	    padding: 1%;
+	    border: 1px solid rgba(0,0,0,0.3);
+	}
+	.d-example:hover{
+		border:2px solid rgba(103, 58, 183, 0.6);
+		font-weight:bold;
+	}
+	/* 보기추가  */
+	.a-example{
+		background-color:#fff;
+		border:1px solid rgba(0,0,0,0.3);
+		cursor:pointer;
+		padding: 1%;
+	}
+	.a-example:hover{
+		border:2px solid rgba(103, 58, 183, 0.6);
+	}
+	
 </style>
 <body>
-	<!-- 설문등록완료 #btn_survey   질문추가 #btn_q -->
-	<div class="top">
-		<h1>설문지 만들기</h1>
+	<h1>설문지 만들기</h1>
+	<hr>
+	<div class="t-survey">
+		<input type="text" placeholder="제목 없는 설문지" class = "survey">
 	</div>
-	
-	
-	<div class="survey-title">
-		<input type="text" class="title" placeholder="제목 없는 설문지">
+	<div class="item">
+		<input type="text" name="" placeholder="제목없는 질문" class = "question">
+		<select name="q-option" class="q-option">
+			<option value="none">===선택===</option>
+			<option value="short">단답형</option>
+			<option value="long">장문형</option>
+			<option value="choice">객관식 질문</option>
+			<option value="checkbox">체크박스</option>
+		</select>
+		<br>
+		<div class="i-bottom">
+			<button type = "button" class = "d-question" >질문 삭제</button>
+		</div>	
 	</div>
-	<div class="q">
-		<div class="q-top">
-			<input type="text" name="question-title" placeholder="질문 제목">
-			<select class="q_type">
-				<option value="none">=== 선택 ===</option>
-				<option value=“1”>주관식</option>
-				<option value=“2">객관식</option>
-				<option value="check">체크박스</option>
-			</select>
-		</div>
-		<div class="q-mid">
-			<div class="mid-top">
-				<span>O</span>
-				<input type="text" class="option" placeholder="옵션">
-				<button type="button" class="option-delete">X</button>
-			</div>
-			<div class="mid-bottom">
-				<span>O</span>
-				<button type="button" class="addoption">옵션 추가</button>
-			</div>
-		</div>
-		<hr>
-		<div class="q-bottom">
-			<button type="button" class="delete">질문 삭제</button>
-		</div>
-	</div>
-	
+			
 	<div class="navi">
-		<button type ="button" class ="add">- 질문 추가하기</button>
-		<button type="button" class="submit">- 작성하기</button>
-	</div>	
-<script>
-
-
-	$(document).on('click', '.addoption',function(){
-		var i = 1;
-		
-		$(".mid-top").append("<input type=" + text + " class=" + option + " placeholder="  +옵션 + i + ">");
+		<button type = "button" class = "a-question">질문 추가하기</button>
+		<button type="button" class="submit">작성하기</button>
+	</div>
 	
-		i++;
-	})
+<script>
+$(document).on('change', '.q-option', function () {
+	// 보기 겹침 방지
+	while(true) {
+		if($(this).next().next().hasClass("example2") == true || $(this).next().next().hasClass("a-example") == true) {
+			$(this).next().next().remove();
+		} else {
+			break;	
+		}
+	}
 
-	// 삭제	
-	$(document).on('click', 'delete', function(){
-		$(this).parent().remove();
-	});
+	
+	if($(this).val() == "short") {
+		$(this).prev().prev().prop("placeholder", "단답형 질문")
+	} else if($(this).val()  == "long") {
+		$(this).prev().prev().prop("placeholder", "장문형 질문")
+	} else if($(this).val()  == "choice") {
+		$(this).prev().prev().prop("placeholder", "객관식 질문")
+		$(this).next().after("<div class = 'example2'><input type='text' placeholder='보기' class = 'example'> <button type = 'button' class = 'd-example'>보기 삭제</button></div><button type = 'button' class = 'a-example'>보기 추가하기</button>");
+	} else if($(this).val()  == "checkbox") {
+		$(this).prev().prev().prop("placeholder", "체크박스형 질문")
+		$(this).next().after("<div class = 'example2'><input type='text' placeholder='보기' class = 'example'> <button type = 'button' class = 'd-example'>보기 삭제</button></div><button type = 'button' class = 'a-example'>보기 추가하기</button>");
+	} else if($(this).val()  == "none") {
+		$(this).prev().prop("placeholder", "제목없는 질문")
+	}
+});
 
-	// 추가
-	$(document).on('click', 'add', function(){
-		$(this).prev().remove();
-		$(this).remove();
-	});
-</script>
+// 질문 추가
+$(document).on('click', '.a-question', function () {
+	$(".a-question").parent().before("<div class='item'><input type='text' placeholder='제목없는 질문' class = 'question'><select name='q-option' class='q-option'><option value='none'>===선택===</option><option value='short'>단답형</option><option value='long'>장문형</option><option value='choice'>객관식 질문</option><option value='checkbox'>체크박스</option></select><br><div class='i-bottom'><button type = 'button' class = 'd-question'>질문 삭제</button></div>")
+});
+
+// 보기 추가
+$(document).on('click', '.a-example', function () {
+	$(this).prev().children().last().after("<input type='text' placeholder='보기' class = 'example'> <button type = 'button' class = 'd-example'>보기 삭제</button>");
+});
+
+
+// 질문 삭제
+$(document).on('click', '.d-question', function () {
+	$(this).parent().parent().remove();
+});
+
+// 보기 삭제
+$(document).on('click', '.d-example', function () {		
+	$(this).prev().remove();
+	$(this).remove();
+});
+</script>  
 </body>
 </html>

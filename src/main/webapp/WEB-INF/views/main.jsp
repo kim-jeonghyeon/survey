@@ -19,6 +19,7 @@
          	<sec:authorize access="isAuthenticated()">
           		<a href="/logout">로그아웃</a>
           		<a href="makesurvey">설문지 만들기</a>
+          		<a href="listsurvey">설문지 목록</a>
          	</sec:authorize>
         </div>
         <div>
