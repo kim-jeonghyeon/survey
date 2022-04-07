@@ -206,7 +206,7 @@ $(document).on('change', '.q-option', function () {
 		}
 	}
 
-	
+	// 질문 클릭시
 	if($(this).val() == "short") {
 		$(this).prev().prev().prop("placeholder", "단답형 질문")
 	} else if($(this).val()  == "long") {
@@ -242,6 +242,52 @@ $(document).on('click', '.d-question', function () {
 $(document).on('click', '.d-example', function () {		
 	$(this).prev().remove();
 	$(this).remove();
+});
+
+
+// 전송
+$(document).on('click', '.submit', function () {
+	let survey = {
+			title : $(".survey").val(),
+			itemlist : []
+	};
+	
+	$(".item").each(function( index ) {
+		let item = {
+				question : {
+					desc : $(this).children().first().val(),
+					type : $(this).children().first().next().val()
+				},
+				examplelist : []
+		}
+		
+		let tmp = $(this).children().first().next().next().next().children().first();
+		
+		if(tmp.hasClass("example") == true) {
+			$(".example").each(function( index ) {
+				let example = {};
+				
+				example.content = tmp.val();
+				item.examplelist.push(example);
+			});
+		} else {
+			item.examplelist.push(null);
+		}
+		survey.itemlist.push(item);
+	});
+	
+	let makesurvey = JSON.stringify(survey);
+	
+	$.ajax({
+		method: "POST",
+		url: "/surveyprocess",
+		data: makesurvey,
+		contentType : "application/json; charset=utf-8",
+		success: function(data) {
+			let url = "/savesurvey";
+			location.replace(url);
+		}
+	});
 });
 </script>  
 </body>

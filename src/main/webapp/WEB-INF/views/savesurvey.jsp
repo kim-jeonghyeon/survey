@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h1>저장되었습니다.</h1>
+	<a href="/">돌아가기</a>
 </body>
 </html>
