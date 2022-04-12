@@ -1,6 +1,8 @@
 package com.survey.example.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.survey.example.domain.User;
@@ -31,7 +34,10 @@ public class Controller {
 	@Autowired PasswordEncoder passwordEncoder;
 	
 	@RequestMapping("/")
-	public String home(Model model) { 
+	public String home(Model model) {
+		logger.debug("debug");
+		logger.info("info");
+		logger.error("error");
 		return "/main";
 	}
    
@@ -118,25 +124,29 @@ public class Controller {
 		pagination.init();
 		pagination.setSearch(search);
 		
-		ArrayList<Survey> survey = surveyservice.selectNoticeList(pagination);
+		ArrayList<Survey> survey = surveyservice.selectSurveyList(pagination);
 		
-		model.addAttribute("notice",notice);
+		model.addAttribute("survey",survey);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("count",count);
-		
-		
-		
+
 	   return "/surveylist";
 	}
 	
 	@RequestMapping(value="/surveyprocess")
-	public String surveyprovess(Model model, Survey survey, Authentication auth) {
+	public String surveyprovess(Model model, @RequestBody Survey survey, Authentication auth) {
 		
 		User user = (User)auth.getPrincipal();
+
+		survey.setS_journal(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		survey.setS_views(0);
+		survey.setU_idx(user.getU_idx());
 		
-		
-		
-		surveyservice.insertSurvey(survey);
+		/* surveyservice.insertSurvey(survey); */
+		/*
+		surveyservice.insertQuestion(question);
+		surveyservice.insertItem(item);
+		*/
 		model.addAttribute("survey",survey);
 		
 		return "/main";

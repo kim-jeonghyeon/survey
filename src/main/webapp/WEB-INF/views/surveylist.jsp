@@ -93,50 +93,50 @@ main {
 	margin: 150px auto;
 }
 
-#notice_top li {
+#survey_top li {
 	float: left;
 	height: 50px;
 	margin-bottom: 10px;
 }
 
-#notice_top select {
+#survey_top select {
 	height: 29px;
 	width: 70px;
 	margin-right: 10px;
 	margin-top: 10px;
 }
 
-#notice_top li:nth-child(1) {
+#survey_top li:nth-child(1) {
 	font-size: 35px;
 	font-weight: bold;
 	width: 200px;
 }
 
-#notice_top li:nth-child(2) {
+#survey_top li:nth-child(2) {
 	vertical-align: bottom;
 	padding-top: 18px;
 	height: 32px;
 	font-size: 18px;
 }
 
-#notice_top li:nth-child(3) {
+#survey_top li:nth-child(3) {
 	float: right;
 	padding-top: 10px;
 	height: 30px;
 	margin-right: 10px;
 }
 
-#notice_top li:nth-child(3) input:nth-child(2) {
+#survey_top li:nth-child(3) input:nth-child(2) {
 	height: 27px;
 	font-size: 15px;
 }
-#notice_top li:nth-child(3) input:nth-child(3){
+#survey_top li:nth-child(3) input:nth-child(3){
 	height: 31px;
 	width: 40px;
 	font-size: 12px;
 }
 
-#notice_main {
+#survey_main {
 	width: 100%;
 	height: 40px;
 	float: left;
@@ -145,7 +145,7 @@ main {
 	background-color: rgba(0, 0, 0, 0.1);
 }
 
-#notice_main li {
+#survey_main li {
 	float: left;
 	width:;
 	height: 100%;
@@ -153,32 +153,32 @@ main {
 	font-size: 18px;
 }
 
-#notice_main li:nth-child(1) {
+#survey_main li:nth-child(1) {
 	width: 10%;
 }
 
-#notice_main li:nth-child(2) {
+#survey_main li:nth-child(2) {
 	width: 40%;
 }
 
-#notice_main li:nth-child(3) {
+#survey_main li:nth-child(3) {
 	width: 15%;
 }
 
-#notice_main li:nth-child(4) {
+#survey_main li:nth-child(4) {
 	width: 25%;
 }
 
-#notice_main li:nth-child(5) {
+#survey_main li:nth-child(5) {
 	width: 10%;
 }
 
-#notice_bottom {
+#survey_bottom {
 	width: 100%;
 	float: left;
 }
 
-#notice_bottom li a span {
+#survey_bottom li a span {
 	float: left;
 	height: 40px;
 	box-shadow: 0 0 0 1px #000 inset;
@@ -188,23 +188,23 @@ main {
 	text-align: center;
 }
 
-#notice_bottom li a span:nth-child(1) {
+#survey_bottom li a span:nth-child(1) {
 	width: 10%
 }
 
-#notice_bottom li a span:nth-child(2) {
+#survey_bottom li a span:nth-child(2) {
 	width: 40%
 }
 
-#notice_bottom li a span:nth-child(3) {
+#survey_bottom li a span:nth-child(3) {
 	width: 15%
 }
 
-#notice_bottom li a span:nth-child(4) {
+#survey_bottom li a span:nth-child(4) {
 	width: 25%
 }
 
-#notice_bottom li a span:nth-child(5) {
+#survey_bottom li a span:nth-child(5) {
 	width: 10%
 }
 
@@ -265,13 +265,13 @@ div p:hover a {
 		</ul>
 	</header>
 	<main>
-		<ul id="notice_top">
+		<ul id="survey_top">
 			<li>설문지 정보</li>
 			<li>총 설문지-<span>${pagination.count}</span></li>
 			<li>
-				<form action="notice"  method="get">
+				<form action="surveylist"  method="get">
 					<select name="field">
-						<option value="n_title">제목</option>
+						<option value="s_title">제목</option>
 						<option value="tb.u_name">작성자</option>
 					</select>
 					<input type="text" name="query" value="${param.q}">
@@ -279,22 +279,22 @@ div p:hover a {
 				</form>
 			</li>
 		</ul>
-		<ul id="notice_main">
+		<ul id="survey_main">
 			<li>번호</li>
 			<li>제목</li>
 			<li>작성자</li>
 			<li>작성일자</li>
 			<li>조회수</li>
 		</ul>
-		<c:forEach items="${notice}" var="item">
-			<ul id="notice_bottom">
-				<li><a href="/noticeDetail?n_no=${item.n_no}">
+		<c:forEach items="${survey}" var="item">
+			<ul id="survey_bottom">
+				<li><a href="/surveyDetail?n_no=${item.s_idx}">
 				
 						<span>${item.rownum}</span>
-						<span>${item.n_title}</span>
+						<span>${item.s_title}</span>
 						<span>${item.user.uName}</span>
-						<span>${item.n_journal}</span>
-						<span>${item.n_views}</span>
+						<span>${item.s_journal}</span>
+						<span>${item.s_views}</span>
 				</a></li>
 			</ul>
 		</c:forEach>
@@ -302,7 +302,7 @@ div p:hover a {
 			<ul>
 				<c:if test = "${pagination.page > 1}">
 					<li>
-						<a href="/notice?page=${pagination.prevPage}&f=${pagination.search.field}&q=${pagination.search.query}">◀</a>
+						<a href="/surveylist?page=${pagination.prevPage}&f=${pagination.search.field}&q=${pagination.search.query}">◀</a>
 					</li>
 				</c:if> 
 			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
@@ -314,17 +314,16 @@ div p:hover a {
 						</c:if>
 						<c:if test="${ pagination.page ne i }">
 							<li>
-								<a href="/notice?page=${i}&f=${pagination.search.field}&q=${pagination.search.query}">${i}</a>
+								<a href="/surveylist?page=${i}&f=${pagination.search.field}&q=${pagination.search.query}">${i}</a>
 							</li>
 						</c:if>
 			</c:forEach>
 				<c:if test = "${pagination.page < pagination.lastPage}">
 					<li>
-						<a href="/notice?page=${pagination.lastPage}&f=${pagination.search.field}&q=${pagination.search.query}">▶</a>
+						<a href="/surveylist?page=${pagination.lastPage}&f=${pagination.search.field}&q=${pagination.search.query}">▶</a>
 					</li>
 				</c:if>
 		</ul>
-		<p><a href="/notice-write">글쓰기</a></p>
 		</div>
 	</main>
 </body>

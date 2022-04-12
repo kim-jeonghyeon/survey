@@ -247,36 +247,53 @@ $(document).on('click', '.d-example', function () {
 
 // 전송
 $(document).on('click', '.submit', function () {
+	let questionList = [];
+	
+	// 질문들 반복
+	#(".item").each(function(){
+		let itemList = [];
+		
+		// 체크박스나 객관식 질문들
+		let item = {
+			i_contents: $(this).children().first().next().next().next().children().first();
+		};
+
+		if(item.hasClass("example") == true){
+			$('.example').each(function(){
+				let item = {
+					i_contents: $(this).children().first().next().next().next().children().first();
+				};
+				if(i_contents.hasClass("example") == true) {
+					itemList.push(item);
+				} else {
+					itemList.push(null);
+				}
+			});
+			}
+
+		// 질문 제목과 타입들
+		let question = {
+				q_contents: $(this).children().first().val(),
+				q_type: $(this).children().first().next().val(),
+				itemList : item
+		};
+		questionList.push(question);
+		
+	});
 	let survey = {
-			title : $(".survey").val(),
-			itemlist : []
+			s_title : $(".survey").val(),
+			questionList : questionList
 	};
 	
-	$(".item").each(function( index ) {
-		let item = {
-				question : {
-					desc : $(this).children().first().val(),
-					type : $(this).children().first().next().val()
-				},
-				examplelist : []
-		}
-		
-		let tmp = $(this).children().first().next().next().next().children().first();
-		
-		if(tmp.hasClass("example") == true) {
-			$(".example").each(function( index ) {
-				let example = {};
-				
-				example.content = tmp.val();
-				item.examplelist.push(example);
-			});
-		} else {
-			item.examplelist.push(null);
-		}
-		survey.itemlist.push(item);
-	});
+	console.log(survey);
+
+
+
+
+
+
 	
-	let makesurvey = JSON.stringify(survey);
+	/* let makesurvey = JSON.stringify(survey); */
 	
 	$.ajax({
 		method: "POST",
@@ -288,6 +305,7 @@ $(document).on('click', '.submit', function () {
 			location.replace(url);
 		}
 	});
+
 });
 </script>  
 </body>

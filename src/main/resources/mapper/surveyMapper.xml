@@ -21,7 +21,7 @@
 	
 	</resultMap>
 	
-	<select id="selectSurvey" resultMap="SurveyResultMap">
+	<select id="selectSurveyList" resultMap="SurveyResultMap">
 		SELECT 		@ROWNUM := @ROWNUM -1 AS ROWNUM, ta.*, tb.u_idx, tb.u_name
 		FROM		survey ta
 		INNER JOIN	(SELECT @ROWNUM := (SELECT	COUNT(*)- #{pageNum}+1 FROM survey ta)) tc ON 1=1
@@ -29,27 +29,90 @@
 		<where>
 			<if test= 'search.query !=null and !search.query.equals("") '>
 				${search.field} LIKE CONCAT ('%', #{search.query}, '%')
-				
-<!-- 작은 따움표를 없앨려면 ${}를 사용하면 되는데 보안에 취약하다. -->
 			</if>
 		</where>
 			
-		ORDER BY	s_group desc, s_order asc, s_idx desc
+		ORDER BY	s_idx desc
 		LIMIT		#{pageNum}, 5
 	</select>
 		
 		
+		
+		
+	<!-- 설문지 작성 -->
+	
+	<insert id="insertSurvey" parameterType="Survey">
+		INSERT INTO
+			survey
+			(
+				s_idx,
+				s_title,
+				s_journal,
+				s_views,
+				u_idx
+			)
+			VALUES
+				(
+					#{s_idx},
+					#{s_title},
+					#{s_journal},
+					#{s_views},
+					#{u_idx}
+			)
+		<!-- <selectKey keyProperty="s_idx" resultType="Integer">
+				SELECT LAST_INSERT_ID()
+		</selectKey> -->
+	</insert>
+	<insert id="insertQuestion" parameterType="Question">
+		INSERT INTO
+			question
+			(
+				s_idx,
+				q_idx,
+				q_contents,
+				q_type,
+			)
+			VALUES
+				(
+					#{s_idx},
+					#{q_idx},
+					#{q_contents},
+					#{q_type}
+			)
+	</insert>
+	<insert id="insertItem" parameterType="Item">
+		INSERT INTO
+			item
+			(
+				s_idx,
+				q_idx,
+				i_idx,
+				i_contents,
+			)
+			VALUES
+				(
+					#{s_idx},
+					#{q_idx},
+					#{i_idx},
+					#{i_contents}
+			)
+	</insert>
+		
+		
+		
+		
+		
 	<!-- 검색  -->	
-	<select id="getSurveyCount" resultType="int">
+	<select id="getSurveyCount" resultType="int" parameterType="Search">
 		SELECT COUNT(*) count 
-		FROM survey
+		FROM survey, user tb
 		
 		<where>
 			 <if test='query != null and !query.equals("")'>
 				${field} LIKE CONCAT ('%',#{query}, '%')
-				ORDER BY	s_idx desc
 			</if>
 		</where>
+		ORDER BY s_idx desc
 	</select>
 	
 	<!-- 조회수 -->

@@ -1,5 +1,5 @@
 package com.survey.example.domain;
 
-public class PaginationObject {
+public interface PaginationObject {
 	int getPk();
 }
