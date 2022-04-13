@@ -37,33 +37,30 @@
 	</select>
 		
 		
-		
-		
 	<!-- 설문지 작성 -->
 	
 	<insert id="insertSurvey" parameterType="Survey">
 		INSERT INTO
 			survey
 			(
-				s_idx,
 				s_title,
 				s_journal,
 				s_views,
 				u_idx
 			)
 			VALUES
-				(
-					#{s_idx},
+				(	
 					#{s_title},
 					#{s_journal},
 					#{s_views},
 					#{u_idx}
 			)
-		<!-- <selectKey keyProperty="s_idx" resultType="Integer">
+		<selectKey keyProperty="s_idx" resultType="Integer">
 				SELECT LAST_INSERT_ID()
-		</selectKey> -->
+		</selectKey>
 	</insert>
-	<insert id="insertQuestion" parameterType="Question">
+	
+	<insert id="insertQuestion" parameterType="Survey">
 		INSERT INTO
 			question
 			(
@@ -75,12 +72,12 @@
 			VALUES
 				(
 					#{s_idx},
-					#{q_idx},
-					#{q_contents},
-					#{q_type}
+					(SELECT IFNULL(MAX(#{question.q_idx}) +1, 1) FROM question),
+					#{question.q_contents},
+					#{question.q_type}
 			)
 	</insert>
-	<insert id="insertItem" parameterType="Item">
+	<insert id="insertItem" parameterType="Survey">
 		INSERT INTO
 			item
 			(
@@ -92,9 +89,9 @@
 			VALUES
 				(
 					#{s_idx},
-					#{q_idx},
-					#{i_idx},
-					#{i_contents}
+					#{question.q_idx},
+					(SELECT IFNULL(MAX(#{item.i_idx}) +1, 1) FROM item),
+					#{item.i_contents}
 			)
 	</insert>
 		

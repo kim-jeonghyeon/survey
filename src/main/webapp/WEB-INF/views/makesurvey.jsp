@@ -176,8 +176,8 @@
 		<input type="text" placeholder="제목 없는 설문지" class = "survey">
 	</div>
 	<div class="item">
-		<input type="text" name="" placeholder="제목없는 질문" class = "question">
-		<select name="q-option" class="q-option">
+		<input type="text" name="q_contents" placeholder="제목없는 질문" class = "question">
+		<select name="q_type" class="q-option">
 			<option value="none">===선택===</option>
 			<option value="short">단답형</option>
 			<option value="long">장문형</option>
@@ -213,10 +213,10 @@ $(document).on('change', '.q-option', function () {
 		$(this).prev().prev().prop("placeholder", "장문형 질문")
 	} else if($(this).val()  == "choice") {
 		$(this).prev().prev().prop("placeholder", "객관식 질문")
-		$(this).next().after("<div class = 'example2'><input type='text' placeholder='보기' class = 'example'> <button type = 'button' class = 'd-example'>보기 삭제</button></div><button type = 'button' class = 'a-example'>보기 추가하기</button>");
+		$(this).next().after("<div class = 'example2'><input type='text' name='i_contents' placeholder='보기' class = 'example'> <button type = 'button' class = 'd-example'>보기 삭제</button></div><button type = 'button' class = 'a-example'>보기 추가하기</button>");
 	} else if($(this).val()  == "checkbox") {
 		$(this).prev().prev().prop("placeholder", "체크박스형 질문")
-		$(this).next().after("<div class = 'example2'><input type='text' placeholder='보기' class = 'example'> <button type = 'button' class = 'd-example'>보기 삭제</button></div><button type = 'button' class = 'a-example'>보기 추가하기</button>");
+		$(this).next().after("<div class = 'example2'><input type='text' name='i_contents' placeholder='보기' class = 'example'> <button type = 'button' class = 'd-example'>보기 삭제</button></div><button type = 'button' class = 'a-example'>보기 추가하기</button>");
 	} else if($(this).val()  == "none") {
 		$(this).prev().prop("placeholder", "제목없는 질문")
 	}
@@ -247,53 +247,49 @@ $(document).on('click', '.d-example', function () {
 
 // 전송
 $(document).on('click', '.submit', function () {
-	let questionList = [];
+	let questionList = []
 	
 	// 질문들 반복
-	#(".item").each(function(){
-		let itemList = [];
-		
+	$(".item").each(function( index ) {
+		let itemList = []
+	
 		// 체크박스나 객관식 질문들
-		let item = {
-			i_contents: $(this).children().first().next().next().next().children().first();
-		};
-
-		if(item.hasClass("example") == true){
+		let i_contents = $(this).children().first().next().next().next().children().first();
+		
+		if(i_contents.hasClass("example") == true){
 			$('.example').each(function(){
-				let item = {
-					i_contents: $(this).children().first().next().next().next().children().first();
-				};
-				if(i_contents.hasClass("example") == true) {
-					itemList.push(item);
-				} else {
-					itemList.push(null);
+				let item = {i_contents };
+				
+				itemList.push(item);
+
+				if(i_contents.hasClass("example") == false) {
+					return false;
 				}
 			});
-			}
+
+			console.log(itemList);
+		}
 
 		// 질문 제목과 타입들
 		let question = {
 				q_contents: $(this).children().first().val(),
 				q_type: $(this).children().first().next().val(),
-				itemList : item
+				itemList : itemList
 		};
-		questionList.push(question);
+
+	console.log(question);
 		
-	});
-	let survey = {
-			s_title : $(".survey").val(),
-			questionList : questionList
-	};
+		questionList.push(question);
+	});	
 	
+	let survey = {
+		s_title : $(".survey").val(),
+		questionList :  questionList
+	};	
 	console.log(survey);
 
-
-
-
-
-
 	
-	/* let makesurvey = JSON.stringify(survey); */
+	let makesurvey = JSON.stringify(survey);
 	
 	$.ajax({
 		method: "POST",

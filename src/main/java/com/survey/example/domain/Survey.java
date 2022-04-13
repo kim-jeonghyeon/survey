@@ -1,5 +1,7 @@
 package com.survey.example.domain;
 
+import java.util.List;
+
 public class Survey implements PaginationObject {
 	private int ROWNUM;
 	private int s_idx;
@@ -9,9 +11,9 @@ public class Survey implements PaginationObject {
 	private int u_idx;
 	
 	private User user;
-	private Item item;
-	private Question question;
 	private Pagination pagination;
+	private List<Question> questionList;
+	private List<Item> itemList;
 	
 	
 	public int getRownum() {
@@ -56,24 +58,25 @@ public class Survey implements PaginationObject {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Item getItem() {
-		return item;
-	}
-	public void setItem(Item item) {
-		this.item = item;
-	}
-	public Question getQuestion() {
-		return question;
-	}
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
 	public Pagination getPagination() {
 		return pagination;
 	}
 	public void setPagination(Pagination pagination) {
 		this.pagination = pagination;
 	}
+	public List<Question> getQuestionList() {
+		return questionList;
+	}
+	public void setQuestionList(List<Question> questionList) {
+		this.questionList = questionList;
+	}
+	public List<Item> getItemList() {
+		return itemList;
+	}
+	public void setItemList(List<Item> itemList) {
+		this.itemList = itemList;
+	}
+	
 	
 	@Override
 	public int getPk() {
