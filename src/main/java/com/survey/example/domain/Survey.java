@@ -13,8 +13,6 @@ public class Survey implements PaginationObject {
 	private User user;
 	private Pagination pagination;
 	private List<Question> questionList;
-	private List<Item> itemList;
-	
 	
 	public int getRownum() {
 		return ROWNUM;
@@ -69,12 +67,6 @@ public class Survey implements PaginationObject {
 	}
 	public void setQuestionList(List<Question> questionList) {
 		this.questionList = questionList;
-	}
-	public List<Item> getItemList() {
-		return itemList;
-	}
-	public void setItemList(List<Item> itemList) {
-		this.itemList = itemList;
 	}
 	
 	

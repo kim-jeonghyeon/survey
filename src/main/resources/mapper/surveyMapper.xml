@@ -70,12 +70,15 @@
 				q_type,
 			)
 			VALUES
+			<foreach collection="questionList" item="item" separator=","> 
 				(
 					#{s_idx},
-					(SELECT IFNULL(MAX(#{question.q_idx}) +1, 1) FROM question),
-					#{question.q_contents},
-					#{question.q_type}
+					(SELECT IFNULL(MAX(#{questionList.q_idx}) + 1, 1) FROM question q),
+					#{questionList.q_idx},
+					#{questionList.q_contents},
+					#{questionList.q_type}
 			)
+			</foreach>
 	</insert>
 	<insert id="insertItem" parameterType="Survey">
 		INSERT INTO
@@ -87,12 +90,21 @@
 				i_contents,
 			)
 			VALUES
-				(
-					#{s_idx},
-					#{question.q_idx},
-					(SELECT IFNULL(MAX(#{item.i_idx}) +1, 1) FROM item),
-					#{item.i_contents}
-			)
+			<foreach collection="questionList" item="item" separator=",">
+				<choose>
+					<when test="question.itemList != null">
+						<foreach collection="question.itemList" item="item" separator=",">
+							(
+								#{s_idx},
+								#{questionList.q_idx},
+								(SELECT IFNULL(MAX(#{questionList.itemlist.i_idx}) + 1, 1) FROM item i),
+								#{questionList.itemlist.i_idx},
+								#{questionList.itemlist.i_contents}
+							)
+						</foreach>
+					</when>
+				</choose>
+			</foreach>
 	</insert>
 		
 		

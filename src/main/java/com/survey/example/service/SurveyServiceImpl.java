@@ -40,7 +40,7 @@ public class SurveyServiceImpl implements SurveyService{
 	public void insertSurvey(Survey survey) {
 		surveyMapper.insertSurvey(survey);
 		surveyMapper.insertQuestion(survey);
-		surveyMapper.insertItem(survey);
+		surveyMapper.insertItem(survey);			
 	}
 
 }

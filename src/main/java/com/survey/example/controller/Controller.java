@@ -135,27 +135,17 @@ public class Controller {
 	}
 	
 	@RequestMapping(value="/surveyprocess")
-	public String surveyprovess(Model model, @RequestBody Survey survey, Question question, Item item, Authentication auth) {
+	public String surveyprovess(Model model, @RequestBody Survey survey, Authentication auth) {
 		
 		User user = (User)auth.getPrincipal();
-
-		List<Question> questionList = new ArrayList<Question>();
-		List<Item> itemList = new ArrayList<Item>();
 		
 		survey.setS_journal(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		survey.setS_views(0);
 		survey.setU_idx(user.getU_idx());
 		
-		
-		questionList.add(question);
-		itemList.add(item);
-		
-		/*
-		 * List<Question> questionList = surveyservice.insertQuestion(survey);
-		 * List<Item> itemList = surveyservice.insertItem(survey);
-		 */
-		
 		surveyservice.insertSurvey(survey);
+		
+		
 		model.addAttribute("survey",survey);
 		
 		return "/main";

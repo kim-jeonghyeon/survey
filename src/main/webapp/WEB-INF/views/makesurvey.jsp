@@ -248,26 +248,28 @@ $(document).on('click', '.d-example', function () {
 // 전송
 $(document).on('click', '.submit', function () {
 	let questionList = []
-	
+
+	let itemList = []
 	// 질문들 반복
 	$(".item").each(function( index ) {
-		let itemList = []
 	
 		// 체크박스나 객관식 질문들
-		let i_contents = $(this).children().first().next().next().next().children().first();
-		
-		if(i_contents.hasClass("example") == true){
-			$('.example').each(function(){
-				let item = {i_contents };
+		let $i_contents = $(this).find('input[name="i_contents"]');
+
+		if($i_contents.hasClass("example") == true){
+			$i_contents.each(function(){
+				let item = { 
+						i_contents : $i_contents.val()
+				};
 				
 				itemList.push(item);
 
-				if(i_contents.hasClass("example") == false) {
+				
+				
+				if($i_contents.hasClass("example") == false) {
 					return false;
 				}
 			});
-
-			console.log(itemList);
 		}
 
 		// 질문 제목과 타입들
@@ -276,12 +278,11 @@ $(document).on('click', '.submit', function () {
 				q_type: $(this).children().first().next().val(),
 				itemList : itemList
 		};
-
-	console.log(question);
-		
 		questionList.push(question);
 	});	
-	
+
+
+	// 설문지 제목
 	let survey = {
 		s_title : $(".survey").val(),
 		questionList :  questionList

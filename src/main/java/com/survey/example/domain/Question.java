@@ -1,10 +1,13 @@
 package com.survey.example.domain;
 
+import java.util.List;
+
 public class Question {
 	private int s_idx;
 	private int q_idx;
 	private String q_contents;
 	private String q_type;
+	private List<Item> itemList;
 	
 	
 	public int getS_idx() {
@@ -30,6 +33,12 @@ public class Question {
 	}
 	public void setQ_type(String q_type) {
 		this.q_type = q_type;
+	}
+	public List<Item> getItemList() {
+		return itemList;
+	}
+	public void setItemList(List<Item> itemList) {
+		this.itemList = itemList;
 	}
 	
 	
