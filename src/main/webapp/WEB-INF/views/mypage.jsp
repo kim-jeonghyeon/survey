@@ -11,7 +11,7 @@
 		<hr>
 	    <div>
 			<a href="/user/info">정보</a>
-		    <a href="#">내가 만든 설문지 보기</a>
+		    <a href="/mysurvey">내가 만든 설문지 보기</a>
 	    </div>
 </body>
 </html>

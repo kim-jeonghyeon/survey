@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.survey.example.domain.Pagination;
+import com.survey.example.domain.Question;
 import com.survey.example.domain.Search;
 import com.survey.example.domain.Survey;
 import com.survey.example.mapper.SurveyMapper;
@@ -27,20 +28,22 @@ public class SurveyServiceImpl implements SurveyService{
 	}
 	
 	@Override
-	public void insertQuestion(Survey survey) {
-		surveyMapper.insertQuestion(survey);
+	public void insertQuestion(Question question) {
+		surveyMapper.insertQuestion(question);
 	}
 	
 	@Override
-	public void insertItem(Survey survey) {
-		surveyMapper.insertItem(survey);
+	public void insertItem(Question question) {
+		surveyMapper.insertItem(question);
 	}
 	
 	@Override
 	public void insertSurvey(Survey survey) {
 		surveyMapper.insertSurvey(survey);
-		surveyMapper.insertQuestion(survey);
-		surveyMapper.insertItem(survey);			
+		for (Question question : survey.getQuestionList()) {
+			surveyMapper.insertQuestion(question);
+			surveyMapper.insertItem(question);
+		}
 	}
 
 }

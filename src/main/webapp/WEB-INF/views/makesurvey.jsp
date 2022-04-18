@@ -251,20 +251,20 @@ $(document).on('click', '.submit', function () {
 
 	let itemList = []
 	// 질문들 반복
-	$(".item").each(function( index ) {
+	$(".item").each(function() {
 	
 		// 체크박스나 객관식 질문들
 		let $i_contents = $(this).find('input[name="i_contents"]');
 
 		if($i_contents.hasClass("example") == true){
-			$i_contents.each(function(){
+			$(".example").each(function(){
 				let item = { 
 						i_contents : $i_contents.val()
 				};
 				
 				itemList.push(item);
 
-				
+				$i_contents = $i_contents.next().next();
 				
 				if($i_contents.hasClass("example") == false) {
 					return false;

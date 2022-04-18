@@ -8,13 +8,13 @@ public class Question {
 	private String q_contents;
 	private String q_type;
 	private List<Item> itemList;
-	
+	private Survey survey;
 	
 	public int getS_idx() {
 		return s_idx;
 	}
 	public void setS_idx(int s_idx) {
-		this.s_idx = s_idx;
+		this.s_idx = survey.getS_idx();
 	}
 	public int getQ_idx() {
 		return q_idx;
@@ -40,6 +40,4 @@ public class Question {
 	public void setItemList(List<Item> itemList) {
 		this.itemList = itemList;
 	}
-	
-	
 }

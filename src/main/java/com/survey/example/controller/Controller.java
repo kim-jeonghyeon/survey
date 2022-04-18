@@ -150,5 +150,32 @@ public class Controller {
 		
 		return "/main";
 	}
+	
+	
+	
+	
+	@Secured({"ROLE_USER"})
+	@RequestMapping(value="/mysurvey")
+	public String mysurvey(Model model, Search search) {
+		int count = 0;
+		
+		count = surveyservice.getSurveyCount(search);
+		
+		Pagination pagination = new Pagination();
+		pagination.setCount(count);
+		pagination.setPage(search.getPage());
+		pagination.init();
+		pagination.setSearch(search);
+		
+		ArrayList<Survey> survey = surveyservice.selectSurveyList(pagination);
+		
+		model.addAttribute("survey",survey);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("count",count);
+		
+		return "/mysurvey";
+	}
+	
+	
 
 }
