@@ -32,7 +32,7 @@
 			</if>
 		</where>
 			
-		ORDER BY	s_idx desc
+		ORDER BY	s_idx asc
 		LIMIT		#{pageNum}, 5
 	</select>
 		
@@ -110,14 +110,25 @@
 	<!-- 검색  -->	
 	<select id="getSurveyCount" resultType="int" parameterType="Search">
 		SELECT COUNT(*) count 
-		FROM survey, user tb
+		FROM survey
 		
 		<where>
 			 <if test='query != null and !query.equals("")'>
 				${field} LIKE CONCAT ('%',#{query}, '%')
 			</if>
 		</where>
-		ORDER BY s_idx desc
+	</select>
+
+	<!-- 내 설문지 검색  -->	
+	<select id="MySurveyCount" resultType="int" parameterType="Survey">
+		SELECT COUNT(*) count 
+		FROM survey ta
+		WHERE ${user.u_idx} = ${u_idx}
+		<where>
+			 <if test='search.query != null and !search.query.equals("")'>
+				${search.field} LIKE CONCAT ('%',#{search.query}, '%')
+			</if>
+		</where>
 	</select>
 	
 	<!-- 조회수 -->

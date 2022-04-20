@@ -253,9 +253,9 @@ $(document).on('click', '.d-example', function () {
 
 // 전송
 $(document).on('click', '.submit', function () {
-	let $q_idx = $(this).attr('q_idx');
+	/* let $q_idx = $(this).attr('q_idx');
 	let $s_idx = $(this).attr('s_idx');
-	let $i_idx = $(this).attr('i_idx');
+	let $i_idx = $(this).attr('i_idx'); */
 	
 	// 설문지 제목
 	let survey = {
@@ -275,13 +275,14 @@ $(document).on('click', '.submit', function () {
 		
 		// 체크박스나 객관식 질문들
 		let $i_contents = $(this).find('input[name="i_contents"]');
+		
+		let $q_idx = $(this).find('input[name="q_idx"]');
+		let $s_idx = $(this).find('input[name="s_idx"]');
+		let $i_idx = $(this).find('input[name="i_idx"]');
 			
 			if($i_contents.hasClass("example") == true){
 				$(".example").each(function(){
 				
-				$q_idx = $(this).find('input[name="q_idx"]');
-				$s_idx = $(this).find('input[name="s_idx"]');
-				$i_idx = $(this).find('input[name="i_idx"]');
 					
 					let item = {
 							i_contents : $i_contents.val(),
@@ -299,9 +300,6 @@ $(document).on('click', '.submit', function () {
 					}
 				});
 			}else{
-				$q_idx = $(this).find('input[name="q_idx"]');
-				$s_idx = $(this).find('input[name="s_idx"]');
-				$i_idx = $(this).find('input[name="i_idx"]');
 				
 				let item ={
 						q_idx : $q_idx.val(),

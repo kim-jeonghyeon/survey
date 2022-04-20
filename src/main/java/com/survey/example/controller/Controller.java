@@ -156,10 +156,14 @@ public class Controller {
 	
 	@Secured({"ROLE_USER"})
 	@RequestMapping(value="/mysurvey")
-	public String mysurvey(Model model, Search search) {
-		int count = 0;
+	public String mysurvey(Model model,Survey survey, Search search, Authentication auth) {
 		
-		count = surveyservice.getSurveyCount(search);
+		User user = (User)auth.getPrincipal();
+		
+		int count = 0;
+		survey.setUser(user);
+		survey.setU_idx(user.getU_idx());
+		count = surveyservice.MySurveyCount(survey);
 		
 		Pagination pagination = new Pagination();
 		pagination.setCount(count);
@@ -167,9 +171,9 @@ public class Controller {
 		pagination.init();
 		pagination.setSearch(search);
 		
-		ArrayList<Survey> survey = surveyservice.selectSurveyList(pagination);
+		ArrayList<Survey> surveylist = surveyservice.selectSurveyList(pagination);
 		
-		model.addAttribute("survey",survey);
+		model.addAttribute("survey",surveylist);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("count",count);
 		

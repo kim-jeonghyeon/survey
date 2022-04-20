@@ -14,6 +14,7 @@ import com.survey.example.domain.Survey;
 @Mapper
 public interface SurveyMapper {
 	public int getSurveyCount(Search search);
+	public int MySurveyCount(Survey survey);
 	public ArrayList<Survey> selectSurveyList(Pagination pagination);
 	public void insertQuestion(Question question);
 	public void insertItem(Question question);

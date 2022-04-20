@@ -10,6 +10,7 @@ public class Survey implements PaginationObject {
 	private int s_views;
 	private int u_idx;
 	
+	private Search search;
 	private User user;
 	private Pagination pagination;
 	private List<Question> questionList;
@@ -67,6 +68,12 @@ public class Survey implements PaginationObject {
 	}
 	public void setQuestionList(List<Question> questionList) {
 		this.questionList = questionList;
+	}
+	public Search getSearch() {
+		return search;
+	}
+	public void setSearch(Search search) {
+		this.search = search;
 	}
 	
 	
