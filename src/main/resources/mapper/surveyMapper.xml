@@ -89,20 +89,18 @@
 				i_contents,
 			)
 			VALUES
-			<foreach collection="itemList" item="item" separator=",">
 				<choose>
 					<when test="itemList != null">
 						<foreach collection="itemList" item="item" separator=",">
 							(
 								#{s_idx},
 								#{q_idx},
-								(SELECT IFNULL(MAX(itemList.item.i_idx) + 1, 1) FROM item i WHERE s_idx = #{s_idx}),
+								(SELECT IFNULL(MAX(item.i_idx) + 1, 1) FROM item i WHERE s_idx = #{s_idx}),
 								#{item.i_contents}
 							)
 						</foreach>
 					</when>
 				</choose>
-			</foreach>
 	</insert>
 		
 		
