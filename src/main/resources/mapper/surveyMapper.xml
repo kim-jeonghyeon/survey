@@ -73,10 +73,16 @@
 			VALUES 
 			(
 				#{s_idx},
-				(SELECT IFNULL(MAX(q_idx) + 1, 1) FROM question q WHERE s_idx = #{s_idx}),
+				<!-- (SELECT IFNULL(MAX(q_idx) + 1, 1) FROM question q WHERE s_idx = #{s_idx}), -->
+				#{q_idx},
 				#{q_contents},
 				#{q_type}
 			)
+			<selectKey keyProperty="q_idx" resultType="Integer">
+				SELECT		MAX(q_idx) q_idx 
+				FROM 		question
+				WHERE 		s_idx = #{s_idx}
+			</selectKey>
 	</insert>
 	
 	<insert id="insertItem" parameterType="Question">

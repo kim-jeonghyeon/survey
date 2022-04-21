@@ -51,9 +51,9 @@ public class SurveyServiceImpl implements SurveyService{
 	public void insertSurvey(Survey survey) {
 		surveyMapper.insertSurvey(survey);
 		for (Question question : survey.getQuestionList()) {
-			//question.setS_idx(survey.getS_idx());
+			question.setS_idx(survey.getS_idx());
 			surveyMapper.insertQuestion(question);
-			//question.setQ_idx(question.getQ_idx());
+			question.setQ_idx(question.getQ_idx());
 			surveyMapper.insertItem(question);
 		}
 	}
