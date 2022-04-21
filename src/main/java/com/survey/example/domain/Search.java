@@ -4,6 +4,7 @@ public class Search {
 	private String field;
 	private String query;
 	private int page;
+	private User user;
 	
 	public String getField() {
 		return field;
@@ -22,6 +23,12 @@ public class Search {
 	}
 	public void setPage(int page) {
 		this.page = page;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

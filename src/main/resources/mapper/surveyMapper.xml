@@ -108,28 +108,72 @@
 		
 		
 	<!-- 검색  -->	
-	<select id="getSurveyCount" resultType="int" parameterType="Search">
-		SELECT COUNT(*) count 
-		FROM survey
+	<select id="getSurveyCount" resultType="int" parameterType="Search" >
 		
-		<where>
-			 <if test='query != null and !query.equals("")'>
-				${field} LIKE CONCAT ('%',#{query}, '%')
-			</if>
-		</where>
+		<choose>
+			<when test='field != null and field.equals("tb.u_name")'>
+					SELECT COUNT(*) count 
+					FROM survey, user tb
+					WHERE ${field} LIKE CONCAT ('%',#{query}, '%') AND
+					tb.u_idx = survey.u_idx
+			</when>
+			<when test='field != null and field.equals("s_title")'>
+					SELECT COUNT(*) count 
+					FROM survey
+					WHERE ${field} LIKE CONCAT ('%',#{query}, '%')
+			</when>
+			<otherwise>
+				SELECT COUNT(*) count 
+				FROM survey
+			</otherwise>
+		</choose>
 	</select>
-
+	
 	<!-- 내 설문지 검색  -->	
-	<select id="MySurveyCount" resultType="int" parameterType="Survey">
-		SELECT COUNT(*) count 
-		FROM survey ta
-		WHERE ${user.u_idx} = ${u_idx}
-		<where>
-			 <if test='search.query != null and !search.query.equals("")'>
-				${search.field} LIKE CONCAT ('%',#{search.query}, '%')
-			</if>
-		</where>
+	<select id="MySurveyCount" resultType="int" parameterType="Search">
+		<choose>
+			<when test='field != null and field.equals("tb.u_name")'>
+				SELECT COUNT(*) count 
+				FROM survey ta, user tb
+				WHERE ${user.u_idx} = ta.u_idx AND
+					  tb.u_idx = ta.u_idx AND
+					  ${field} LIKE CONCAT ('%',#{query}, '%')
+			</when>
+			<when test='field != null and field.equals("s_title")'>
+				SELECT COUNT(*) COUNT 
+				FROM survey ta
+				WHERE ${user.u_idx} = ta.u_idx AND
+					   ${field} LIKE CONCAT ('%',#{query}, '%')
+			</when>
+			<otherwise>
+				SELECT COUNT(*) count 
+				FROM survey
+				WHERE ${user.u_idx} = u_idx
+			</otherwise>
+		</choose>
 	</select>
+	
+	<!-- 내 설문지 리스트 -->
+	<select id="MySurveyList" resultMap="SurveyResultMap">
+		SELECT 		@ROWNUM := @ROWNUM -1 AS ROWNUM, ta.*, tb.u_idx, tb.u_name
+		FROM		survey ta
+		INNER JOIN	(SELECT @ROWNUM := (SELECT	COUNT(*)- #{pageNum}+1 FROM survey ta)) tc ON 1=1
+		LEFT JOIN	user tb ON ta.u_idx = tb.u_idx
+		<choose>
+			<when test='search.query !=null and !search.query.equals("")'>
+				WHERE ${search.field} LIKE CONCAT ('%', #{search.query}, '%') AND
+					  tb.u_idx = ${search.user.u_idx}
+			</when>
+			<otherwise>
+				WHERE tb.u_idx = ${search.user.u_idx}	
+			</otherwise>
+		</choose>
+		ORDER BY	s_idx asc
+		LIMIT		#{pageNum}, 5
+	</select>
+	
+	
+	
 	
 	<!-- 조회수 -->
 		<update id="viewCount">

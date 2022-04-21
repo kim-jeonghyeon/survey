@@ -106,6 +106,5 @@ public class Pagination {
 		public void setObject(PaginationObject object) {
 			this.object = object;
 		}
-		
 
 }

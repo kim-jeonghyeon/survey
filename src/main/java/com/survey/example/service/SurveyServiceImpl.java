@@ -21,10 +21,10 @@ public class SurveyServiceImpl implements SurveyService{
 	public int getSurveyCount(Search search) {
 		return surveyMapper.getSurveyCount(search);
 	}
-	
+
 	@Override
-	public int MySurveyCount(Survey survey) {
-		return surveyMapper.MySurveyCount(survey);
+	public int MySurveyCount(Search search) {
+		return surveyMapper.MySurveyCount(search);
 	}
 	
 	@Override
@@ -41,6 +41,11 @@ public class SurveyServiceImpl implements SurveyService{
 	public void insertItem(Question question) {
 		surveyMapper.insertItem(question);
 	}
+
+	@Override
+	public ArrayList<Survey> MySurveyList(Pagination pagination){
+		return surveyMapper.MySurveyList(pagination);
+	}	
 	
 	@Override
 	public void insertSurvey(Survey survey) {

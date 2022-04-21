@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -268,7 +270,7 @@ div p:hover a {
 			<li>설문지 정보</li>
 			<li>총 설문지-<span>${pagination.count}</span></li>
 			<li>
-				<form action="surveylist"  method="get">
+				<form action="mysurvey"  method="get">
 					<select name="field">
 						<option value="s_title">제목</option>
 						<option value="tb.u_name">작성자</option>
@@ -301,7 +303,7 @@ div p:hover a {
 			<ul>
 				<c:if test = "${pagination.page > 1}">
 					<li>
-						<a href="/surveylist?page=${pagination.prevPage}&f=${pagination.search.field}&q=${pagination.search.query}">◀</a>
+						<a href="/mysurvey?page=${pagination.prevPage}&f=${pagination.search.field}&q=${pagination.search.query}">◀</a>
 					</li>
 				</c:if> 
 			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
@@ -313,13 +315,13 @@ div p:hover a {
 						</c:if>
 						<c:if test="${ pagination.page ne i }">
 							<li>
-								<a href="/surveylist?page=${i}&f=${pagination.search.field}&q=${pagination.search.query}">${i}</a>
+								<a href="/mysurvey?page=${i}&f=${pagination.search.field}&q=${pagination.search.query}">${i}</a>
 							</li>
 						</c:if>
 			</c:forEach>
 				<c:if test = "${pagination.page < pagination.lastPage}">
 					<li>
-						<a href="/surveylist?page=${pagination.lastPage}&f=${pagination.search.field}&q=${pagination.search.query}">▶</a>
+						<a href="/mysurvey?page=${pagination.lastPage}&f=${pagination.search.field}&q=${pagination.search.query}">▶</a>
 					</li>
 				</c:if>
 		</ul>

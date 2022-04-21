@@ -9,9 +9,10 @@ import com.survey.example.domain.Survey;
 
 public interface SurveyService {
 	public int getSurveyCount(Search search);
-	public int MySurveyCount(Survey survey);
+	public int MySurveyCount(Search search);
 	public ArrayList<Survey> selectSurveyList(Pagination pagination);
 	public void insertQuestion(Question question);
 	public void insertItem(Question question);
 	public void insertSurvey(Survey survey);
+	public ArrayList<Survey> MySurveyList(Pagination pagination);
 }
