@@ -73,7 +73,6 @@
 			VALUES 
 			(
 				#{s_idx},
-				<!-- (SELECT IFNULL(MAX(q_idx) + 1, 1) FROM question q WHERE s_idx = #{s_idx}), -->
 				#{q_idx},
 				#{q_contents},
 				#{q_type}
@@ -85,7 +84,7 @@
 			</selectKey>
 	</insert>
 	
-	<insert id="insertItem" parameterType="Question">
+	<!-- <insert id="insertItem" parameterType="Question">
 		INSERT INTO
 			item
 			(
@@ -101,13 +100,14 @@
 							(
 								#{s_idx},
 								#{q_idx},
-								(SELECT IFNULL(MAX(item.i_idx) + 1, 1) FROM item i WHERE s_idx = #{s_idx}),
+ 								(SELECT IFNULL(MAX(item.i_idx) + 1, 1) FROM item i WHERE s_idx = #{s_idx}),
 								#{item.i_contents}
 							)
 						</foreach>
+						
 					</when>
 				</choose>
-	</insert>
+	</insert> -->
 		
 		
 		

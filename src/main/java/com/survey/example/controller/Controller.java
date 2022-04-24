@@ -138,7 +138,7 @@ public class Controller {
 	}
 	
 	@RequestMapping(value="/surveyprocess")
-	public String surveyprovess(Model model, @RequestBody Survey survey, Authentication auth) {
+	public String surveyprovess(Model model, @RequestBody Survey survey, Question question, Authentication auth) {
 		
 		User user = (User)auth.getPrincipal();
 		
@@ -147,6 +147,8 @@ public class Controller {
 		survey.setU_idx(user.getU_idx());
 		
 		surveyservice.insertSurvey(survey);
+		
+		question.getQ_idx();
 		
 		
 		model.addAttribute("survey",survey);
