@@ -183,24 +183,23 @@ public class Controller {
 	
 	@Secured({"ROLE_USER"})
 	@RequestMapping(value="/surveyDetail")
-	public String surveyDetail(Model model, Survey survey, Item item, Question question, Authentication auth) {
+	public String surveyDetail(Model model,Survey survey, Item item, Question question, Authentication auth) {
 		
 		User user = (User)auth.getPrincipal();
+		
 		survey.setUser(user);
 		
-		item.getS_idx();
-		question.getS_idx();
+		ArrayList<Survey> surveylist = surveyservice.selectSurvey(survey);
+
+		// surveyservice.selectItem(item);
+		// surveyservice.selectQuestion(question);
 		
-		surveyservice.selectSurvey(survey);
-		/*
-		 * surveyservice.selectItem(item); surveyservice.selectQuestion(question);
-		 */
 		
-		model.addAttribute("survey",survey);
-		model.addAttribute("item",item);
-		model.addAttribute("question",question);
+		model.addAttribute("survey",surveylist);
+		// model.addAttribute("item",item);
+		// model.addAttribute("question",question);
 		
-		return "/surveyDetail";
+		return "/surveyDetail/?s_idx="+survey.getS_idx();
 	}
 	
 	

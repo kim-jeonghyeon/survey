@@ -288,7 +288,7 @@ div p:hover a {
 		</ul>
 		<c:forEach items="${survey}" var="item">
 			<ul id="survey_bottom">
-				<li><a href="/surveyDetail?n_no=${item.s_idx}&s_idx=${item.s_idx}">
+				<li><a href="/surveyDetail?s_idx=${item.s_idx}">
 				
 						<span>${item.rownum}</span>
 						<span>${item.s_title}</span>

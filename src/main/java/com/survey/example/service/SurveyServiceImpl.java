@@ -63,8 +63,8 @@ public class SurveyServiceImpl implements SurveyService{
 	}
 	
 	@Override
-	public void selectSurvey(Survey survey) {
-		surveyMapper.selectSurvey(survey);
+	public ArrayList<Survey> selectSurvey(Survey survey) {
+		return surveyMapper.selectSurvey(survey);
 	}
 	@Override
 	public void selectItem(Item item) {

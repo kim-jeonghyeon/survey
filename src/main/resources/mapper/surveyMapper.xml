@@ -214,13 +214,13 @@
 		SELECT *, survey.s_idx
 		FROM item
 		LEFT JOIN survey ON item.s_idx = survey.s_idx
-		WHERE item.s_idx = #{item.s_idx}
+		WHERE item.s_idx = #{s_idx}
 	</select>
 	<select id="selectQuestion" parameterType="question" resultMap="QuestionResultMap">
 		SELECT *, survey.s_idx
 		FROM question
 		LEFT JOIN survey ON question.s_idx = survey.s_idx
-		WHERE question.s_idx = #{question.s_idx}
+		WHERE question.s_idx = #{s_idx}
 	</select>
 	
 	
