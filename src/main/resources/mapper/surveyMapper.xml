@@ -21,6 +21,32 @@
 	
 	</resultMap>
 	
+	<resultMap type="Item" id="ItemResultMap">
+		<result column="s_idx" property="s_idx"/>
+		<result column="q_idx" property="q_idx"/>
+		<result column="i_idx" property="i_idx"/>
+		<result column="i_contents" property="i_contents"/>
+		
+		<association property="survey" javaType="Survey">
+		    <id property="id" column="survey_id"/>
+    		<result column="s_idx" property="s_idx"/>
+  		</association>
+	
+	</resultMap>
+	
+	<resultMap type="Question" id="QuestionResultMap">
+		<result column="s_idx" property="s_idx"/>
+		<result column="q_idx" property="q_idx"/>
+		<result column="q_contents" property="q_contents"/>
+		<result column="q_type" property="q_type"/>
+		
+		<association property="survey" javaType="Survey">
+		    <id property="id" column="survey_id"/>
+    		<result column="s_idx" property="s_idx"/>
+  		</association>
+	
+	</resultMap>
+	
 	<select id="selectSurveyList" resultMap="SurveyResultMap">
 		SELECT 		@ROWNUM := @ROWNUM -1 AS ROWNUM, ta.*, tb.u_idx, tb.u_name
 		FROM		survey ta
@@ -32,7 +58,7 @@
 			</if>
 		</where>
 			
-		ORDER BY	s_idx asc
+		ORDER BY	s_idx desc
 		LIMIT		#{pageNum}, 5
 	</select>
 		
@@ -61,7 +87,7 @@
 	</insert>
 	
 	
-	<insert id="insertQuestion" parameterType="Question">
+	<insert id="insertQuestion" parameterType="question">
 		INSERT INTO
 			question
 			(
@@ -70,13 +96,14 @@
 				q_contents,
 				q_type
 			)
-			VALUES 
-			(
-				#{s_idx},
-				#{q_idx},
-				#{q_contents},
-				#{q_type}
-			)
+			VALUES
+				(
+					#{s_idx},
+					(SELECT IFNULL(MAX(q_idx) + 1, 1) FROM question q WHERE s_idx = #{s_idx}),
+					#{q_contents},
+					#{q_type}
+				)
+
 			<selectKey keyProperty="q_idx" resultType="Integer">
 				SELECT		MAX(q_idx) q_idx 
 				FROM 		question
@@ -84,30 +111,25 @@
 			</selectKey>
 	</insert>
 	
-	<!-- <insert id="insertItem" parameterType="Question">
+	<insert id="insertItem" parameterType="item">
 		INSERT INTO
 			item
 			(
 				s_idx,
 				q_idx,
 				i_idx,
-				i_contents,
+				i_contents
 			)
 			VALUES
-				<choose>
-					<when test="itemList != null">
-						<foreach collection="itemList" item="item" separator=",">
-							(
-								#{s_idx},
-								#{q_idx},
- 								(SELECT IFNULL(MAX(item.i_idx) + 1, 1) FROM item i WHERE s_idx = #{s_idx}),
-								#{item.i_contents}
-							)
-						</foreach>
-						
-					</when>
-				</choose>
-	</insert> -->
+				<foreach collection="itemList" item="item" separator="," index="i">
+					(
+						#{s_idx},
+						#{q_idx},
+ 						(SELECT IFNULL(MAX(item.i_idx)+1+#{i}, 1+#{i}) FROM item i WHERE s_idx = #{s_idx}),
+						#{item.i_contents}
+					)
+				</foreach>
+	</insert>
 		
 		
 		
@@ -174,9 +196,33 @@
 				WHERE tb.u_idx = ${search.user.u_idx}	
 			</otherwise>
 		</choose>
-		ORDER BY	s_idx asc
+		ORDER BY	s_idx desc
 		LIMIT		#{pageNum}, 5
 	</select>
+	
+	
+	
+	
+	
+	<select id="selectSurvey" parameterType="survey" resultMap="SurveyResultMap">
+		SELECT *, user.u_idx
+		FROM survey
+		LEFT JOIN user ON survey.u_idx = user.u_idx
+		WHERE s_idx = #{s_idx}
+	</select>
+	<select id="selectItem" parameterType="item" resultMap="ItemResultMap">
+		SELECT *, survey.s_idx
+		FROM item
+		LEFT JOIN survey ON item.s_idx = survey.s_idx
+		WHERE item.s_idx = #{item.s_idx}
+	</select>
+	<select id="selectQuestion" parameterType="question" resultMap="QuestionResultMap">
+		SELECT *, survey.s_idx
+		FROM question
+		LEFT JOIN survey ON question.s_idx = survey.s_idx
+		WHERE question.s_idx = #{question.s_idx}
+	</select>
+	
 	
 	
 	

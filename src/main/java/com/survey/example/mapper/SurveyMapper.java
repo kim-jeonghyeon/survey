@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.survey.example.domain.Item;
 import com.survey.example.domain.Pagination;
 import com.survey.example.domain.Question;
 import com.survey.example.domain.Search;
@@ -20,4 +21,7 @@ public interface SurveyMapper {
 	public void insertItem(Question question);
 	public void insertSurvey(Survey survey);
 	public ArrayList<Survey> MySurveyList(Pagination pagination);
+	public void selectSurvey(Survey survey);
+	public void selectItem(Item item);
+	public void selectQuestion(Question question);
 }

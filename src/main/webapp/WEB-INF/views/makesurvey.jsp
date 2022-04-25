@@ -167,9 +167,6 @@
 	.a-example:hover{
 		border:2px solid rgba(103, 58, 183, 0.6);
 	}
-	.item > input:nth-child(-n+3){
-		display:none;
-	}
 	
 </style>
 <body>
@@ -179,9 +176,6 @@
 		<input type="text" placeholder="제목 없는 설문지" class = "survey">
 	</div>
 	<div class="item">
-		<input type="text" name="s_idx" value="">
-		<input type="text" name="q_idx" value="">
-		<input type="text" name="i_idx" value="">
 		<input type="text" name="q_contents" placeholder="제목없는 질문" class = "question">
 		<select name="q_type" class="q-option">
 			<option value="none">===선택===</option>
@@ -198,7 +192,7 @@
 			
 	<div class="navi">
 		<button type = "button" class = "a-question">질문 추가하기</button>
-		<button type="button" class="submit" q_idx="${survey.questionList.q_idx}" s_idx="${survey.s_idx}" i_idx="${survey.questionList.itemList.i_idx}">작성하기</button>
+		<button type="button" class="submit">작성하기</button>
 	</div>
 	
 <script>
@@ -230,7 +224,7 @@ $(document).on('change', '.q-option', function () {
 
 // 질문 추가
 $(document).on('click', '.a-question', function () {
-	$(".a-question").parent().before("<div class='item'><input type='hidden' name='s_idx' value=''><input type='hidden' name='q_idx' value=''><input type='hidden' name='i_idx' value=''><input type='text' placeholder='제목없는 질문' class = 'question'><select name='q-option' class='q-option'><option value='none'>===선택===</option><option value='short'>단답형</option><option value='long'>장문형</option><option value='choice'>객관식 질문</option><option value='checkbox'>체크박스</option></select><br><div class='i-bottom'><button type = 'button' class = 'd-question'>질문 삭제</button></div>")
+	$(".a-question").parent().before("<div class='item'><input type='text' placeholder='제목없는 질문' class = 'question'><select name='q-option' class='q-option'><option value='none'>===선택===</option><option value='short'>단답형</option><option value='long'>장문형</option><option value='choice'>객관식 질문</option><option value='checkbox'>체크박스</option></select><br><div class='i-bottom'><button type = 'button' class = 'd-question'>질문 삭제</button></div>")
 });
 
 // 보기 추가
@@ -253,9 +247,6 @@ $(document).on('click', '.d-example', function () {
 
 // 전송
 $(document).on('click', '.submit', function () {
-	/* let $q_idx = $(this).attr('q_idx');
-	let $s_idx = $(this).attr('s_idx');
-	let $i_idx = $(this).attr('i_idx'); */
 	
 	// 설문지 제목
 	let survey = {
@@ -268,17 +259,13 @@ $(document).on('click', '.submit', function () {
 		
 		// 질문 제목과 타입들
 		let question = {
-				q_contents: $(this).children().first().next().next().next().val(),
-				q_type: $(this).children().first().next().next().next().next().val(),
+				q_contents: $(this).children().first().val(),
+				q_type: $(this).children().first().next().val(),
 				itemList : []
 		};
 		
 		// 체크박스나 객관식 질문들
 		let $i_contents = $(this).find('input[name="i_contents"]');
-		
-		let $q_idx = $(this).find('input[name="q_idx"]');
-		let $s_idx = $(this).find('input[name="s_idx"]');
-		let $i_idx = $(this).find('input[name="i_idx"]');
 			
 			if($i_contents.hasClass("example") == true){
 				$(".example").each(function(){
@@ -286,9 +273,6 @@ $(document).on('click', '.submit', function () {
 					
 					let item = {
 							i_contents : $i_contents.val(),
-							q_idx : $q_idx.val(),
-							s_idx : $s_idx.val(),
-							i_idx : $i_idx.val()
 					}
 					
 					question.itemList.push(item);
@@ -300,14 +284,7 @@ $(document).on('click', '.submit', function () {
 					}
 				});
 			}else{
-				
-				let item ={
-						q_idx : $q_idx.val(),
-						s_idx : $s_idx.val(),
-						i_idx : $i_idx.val()
-				}
-				
-				question.itemList.push(item);
+				question.itemList.push(null);
 			}
 			survey.questionList.push(question);
 

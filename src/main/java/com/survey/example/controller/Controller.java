@@ -116,7 +116,7 @@ public class Controller {
 	@RequestMapping(value="/surveylist")
 	public String listsurvey(Model model, Search search,Authentication auth) {
 		int count = 0;
-		User user = (User)auth.getPrincipal();
+		User user = (User)auth.getPrincipal(); 
 		
 		search.setUser(user);
 		
@@ -147,9 +147,6 @@ public class Controller {
 		survey.setU_idx(user.getU_idx());
 		
 		surveyservice.insertSurvey(survey);
-		
-		question.getQ_idx();
-		
 		
 		model.addAttribute("survey",survey);
 		
@@ -182,6 +179,28 @@ public class Controller {
 		model.addAttribute("count",count);
 		
 		return "/mysurvey";
+	}
+	
+	@Secured({"ROLE_USER"})
+	@RequestMapping(value="/surveyDetail")
+	public String surveyDetail(Model model, Survey survey, Item item, Question question, Authentication auth) {
+		
+		User user = (User)auth.getPrincipal();
+		survey.setUser(user);
+		
+		item.getS_idx();
+		question.getS_idx();
+		
+		surveyservice.selectSurvey(survey);
+		/*
+		 * surveyservice.selectItem(item); surveyservice.selectQuestion(question);
+		 */
+		
+		model.addAttribute("survey",survey);
+		model.addAttribute("item",item);
+		model.addAttribute("question",question);
+		
+		return "/surveyDetail";
 	}
 	
 	
