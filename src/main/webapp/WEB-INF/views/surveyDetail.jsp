@@ -67,34 +67,7 @@
 	.question:focus{
 		outline:none;
 	}
-	.q-option{
-		height: 40px;
-	    width: 20%;
-	    float: right;
-	    margin: 1%;
-	}
-	.i-bottom{
-		margin-top:3%;
-		border-top:2px solid rgba(0,0,0,0.2);
-		width:100%;
-		height:50px;
-		float:left;
-	}
-	.d-question{
-		widht:30%;
-		height:50px;
-		margin: 1%;
-		float:right;
-		background-color: #fff;
-		padding: 1%;
-		border:1px solid rgba(0,0,0,0.2);
-		cursor:pointer;
-		border-radius:5px;
-	}
-	.d-question:hover{
-		font-weight:bold;
-		border:2px solid rgba(0,0,0,0.3);
-	}
+
 	.navi{
 		position:absolute;
 		top:75%;
@@ -152,23 +125,35 @@
 	<h1>설문지</h1>
 	<hr>
 	<div class="t-survey">
-		<input type="text" name="s_title" placeholder="${survey.s_title}" class = "survey" readonly>
+		<input type="text" name="s_title" placeholder="${survey.s_title}" class ="survey" readonly>
 	</div>
-	<div class="item">
-		<input type="text" name="q_contents" placeholder="${question.q_contents}" class = "question" readonly>
-		<select name="q_type" class="q-option">
-			<option value="none">===선택===</option>
-			<option value="short">단답형</option>
-			<option value="long">장문형</option>
-			<option value="choice">객관식 질문</option>
-			<option value="checkbox">체크박스</option>
-		</select>
-		<br>
-		<div class="i-bottom">
-			<button type = "button" class = "d-question" >질문 삭제</button>
-		</div>	
-	</div>
-			
+	<%-- <c:forEach items="${question}" var="list">
+		<div>질문</div>
+		<c:forEach items="${question.itemList}" var="item">
+			<div>아이템</div>
+		</c:forEach>
+	
+		
+		<div class="item">
+				<input type="text" name="q_contents" placeholder="${list.q_contents}" class ="question" readonly>
+				<br>
+					<c:choose>
+						<c:when test="${list.q_type eq 'choice'}">
+							<c:forEach items="${item}" var="itemlist">
+								<input type="radio" name="i_contents" placeholder="${itemlist.i_contents}" class ="question" readonly>
+							</c:forEach>
+						</c:when>
+						<c:when test="${list.q_type eq 'checkbox'}">
+							<c:forEach items="${item}" var="itemlist">
+								<input type="checkbox" name="i_contents" placeholder="${itemlist.i_contents}" class ="question" readonly>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+								<input type="text" name="i_contents" class ="question">
+						</c:otherwise>
+					</c:choose>
+		</div>
+	</c:forEach> --%>
 	<div class="navi">
 		<button type="button" class="submit">작성하기</button>
 	</div>

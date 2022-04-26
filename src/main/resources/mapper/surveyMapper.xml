@@ -13,39 +13,40 @@
 		<result column="s_order" property="s_order"/>
 		<result column="s_depth" property="s_depth"/>
 		<result column="u_idx" property="u_idx"/>
+		<result property="surveyid" column="SurveyID"/>
 		
 		<association property="user" javaType="User">
 		    <id property="id" column="user_id"/>
     		<result column="u_name" property="uName"/>
   		</association>
+  		
+  
+  		<!-- <association property="questionList" javaType="Question">
+  			<result column="s_idx" property="s_idx"/>
+  			<result column="itemList" property="itemList"/>
+  			<association property="itemList" javaType="Item">
+  				<result column="s_idx" property="s_idx" />
+  			</association>
+  			
+  		</association> -->
+  		<collection property="question" column="SurveyID" javaType="java.util.ArrayList" ofType="Survey" select="selectSurvey"/>
+  		<!-- <association property="item" javaType="Item">
+  			<id property="itemId" column="Item_id" />
+  			<result column="itemList" property="itemList"/>
+  		</association> -->
 	
 	</resultMap>
 	
-	<resultMap type="Item" id="ItemResultMap">
-		<result column="s_idx" property="s_idx"/>
-		<result column="q_idx" property="q_idx"/>
-		<result column="i_idx" property="i_idx"/>
-		<result column="i_contents" property="i_contents"/>
-		
-		<association property="survey" javaType="Survey">
-		    <id property="id" column="survey_id"/>
-    		<result column="s_idx" property="s_idx"/>
-  		</association>
+	<select id="selectSurvey" resultType="survey">
+		SELECT		*
+		FROM		survey ta
+		LEFT JOIN	user td ON ta.u_idx = td.u_idx
+		LEFT JOIN	question tb ON ta.s_idx = tb.s_idx
+		LEFT JOIN	item tc ON tb.s_idx = tc.s_idx and tb.q_idx = tc.q_idx
+		WHERE 		ta.s_idx = #{s_idx}
+		ORDER BY 	tb.q_idx ASC, tc.i_idx ASC 
+	</select>
 	
-	</resultMap>
-	
-	<resultMap type="Question" id="QuestionResultMap">
-		<result column="s_idx" property="s_idx"/>
-		<result column="q_idx" property="q_idx"/>
-		<result column="q_contents" property="q_contents"/>
-		<result column="q_type" property="q_type"/>
-		
-		<association property="survey" javaType="Survey">
-		    <id property="id" column="survey_id"/>
-    		<result column="s_idx" property="s_idx"/>
-  		</association>
-	
-	</resultMap>
 	
 	<select id="selectSurveyList" resultMap="SurveyResultMap">
 		SELECT 		@ROWNUM := @ROWNUM -1 AS ROWNUM, ta.*, tb.u_idx, tb.u_name
@@ -199,31 +200,6 @@
 		ORDER BY	s_idx desc
 		LIMIT		#{pageNum}, 5
 	</select>
-	
-	
-	
-	
-	
-	<select id="selectSurvey" parameterType="survey" resultMap="SurveyResultMap">
-		SELECT *, user.u_idx
-		FROM survey
-		LEFT JOIN user ON survey.u_idx = user.u_idx
-		WHERE s_idx = #{s_idx}
-	</select>
-	<select id="selectItem" parameterType="item" resultMap="ItemResultMap">
-		SELECT *, survey.s_idx
-		FROM item
-		LEFT JOIN survey ON item.s_idx = survey.s_idx
-		WHERE item.s_idx = #{s_idx}
-	</select>
-	<select id="selectQuestion" parameterType="question" resultMap="QuestionResultMap">
-		SELECT *, survey.s_idx
-		FROM question
-		LEFT JOIN survey ON question.s_idx = survey.s_idx
-		WHERE question.s_idx = #{s_idx}
-	</select>
-	
-	
 	
 	
 	

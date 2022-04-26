@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.survey.example.domain.Item;
 import com.survey.example.domain.Pagination;
 import com.survey.example.domain.Question;
 import com.survey.example.domain.Search;
@@ -53,7 +52,7 @@ public class SurveyServiceImpl implements SurveyService{
 		surveyMapper.insertSurvey(survey);
 		for (Question question : survey.getQuestionList()) {
 			question.setS_idx(survey.getS_idx());
-			if(question.getQ_type().equals("choice") || question.getQ_type().equals("check") ) {
+			if(question.getQ_type().equals("choice") || question.getQ_type().equals("checkbox") ) {
 				surveyMapper.insertQuestion(question);
 				surveyMapper.insertItem(question);
 			}else {
@@ -65,14 +64,7 @@ public class SurveyServiceImpl implements SurveyService{
 	@Override
 	public ArrayList<Survey> selectSurvey(Survey survey) {
 		return surveyMapper.selectSurvey(survey);
-	}
-	@Override
-	public void selectItem(Item item) {
-		surveyMapper.selectItem(item);
-	}
-	@Override
-	public void selectQuestion(Question question) {
-		surveyMapper.selectQuestion(question);
+		
 	}
 	
 	

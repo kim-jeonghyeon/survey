@@ -8,6 +8,7 @@ public class Question {
 	private String q_contents;
 	private String q_type;
 	private List<Item> itemList;
+	private Survey survey;
 	
 	
 	public int getS_idx() {
@@ -40,4 +41,11 @@ public class Question {
 	public void setItemList(List<Item> itemList) {
 		this.itemList = itemList;
 	}
+	public Survey getSurvey() {
+		return survey;
+	}
+	public void setSurvey(Survey survey) {
+		this.survey = survey;
+	}
+	
 }
