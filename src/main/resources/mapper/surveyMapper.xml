@@ -13,31 +13,30 @@
 		<result column="s_order" property="s_order"/>
 		<result column="s_depth" property="s_depth"/>
 		<result column="u_idx" property="u_idx"/>
-		<result property="surveyid" column="SurveyID"/>
 		
 		<association property="user" javaType="User">
 		    <id property="id" column="user_id"/>
     		<result column="u_name" property="uName"/>
   		</association>
-  		
   
-  		<!-- <association property="questionList" javaType="Question">
+  		<collection property="questionList" column="s_idx" javaType="java.util.ArrayList" ofType="Question">
   			<result column="s_idx" property="s_idx"/>
-  			<result column="itemList" property="itemList"/>
-  			<association property="itemList" javaType="Item">
-  				<result column="s_idx" property="s_idx" />
-  			</association>
-  			
-  		</association> -->
-  		<collection property="question" column="SurveyID" javaType="java.util.ArrayList" ofType="Survey" select="selectSurvey"/>
-  		<!-- <association property="item" javaType="Item">
-  			<id property="itemId" column="Item_id" />
-  			<result column="itemList" property="itemList"/>
-  		</association> -->
-	
+  			<result column="q_idx" property="q_idx"/>
+  			<result column="q_contents" property="q_contents"/>
+  			<result column="q_type" property="q_type"/>
+  			<collection property="itemList" column="s_idx" javaType="java.util.ArrayList" ofType="Item">
+  				<result column="s_idx" property="s_idx"/>
+  				<result column="q_idx" property="q_idx"/>
+  				<result column="i_idx" property="i_idx"/>
+  				<result column="i_contents" property="i_contents"/>  			
+  			</collection>
+  		</collection>
+  		
 	</resultMap>
 	
-	<select id="selectSurvey" resultType="survey">
+	
+	<!-- 설문지 상세보기  -->
+	<select id="selectSurvey" resultType="survey" resultMap="SurveyResultMap">
 		SELECT		*
 		FROM		survey ta
 		LEFT JOIN	user td ON ta.u_idx = td.u_idx
@@ -48,6 +47,8 @@
 	</select>
 	
 	
+	
+	<!-- 설문지 리스트  -->	
 	<select id="selectSurveyList" resultMap="SurveyResultMap">
 		SELECT 		@ROWNUM := @ROWNUM -1 AS ROWNUM, ta.*, tb.u_idx, tb.u_name
 		FROM		survey ta
@@ -200,6 +201,53 @@
 		ORDER BY	s_idx desc
 		LIMIT		#{pageNum}, 5
 	</select>
+	
+	
+	<!-- 응답 -->
+	<insert id="insertResponse" parameterType="response">
+		INSERT INTO
+			response
+			(
+				r_idx,
+				s_idx,
+				u_idx
+			)
+			VALUES
+				(	
+					#{r_idx},
+					#{s_idx},
+					#{u_idx}
+			)
+		<selectKey keyProperty="r_idx" resultType="Integer">
+				SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<insert id="insertAnswer" parameterType="answer">
+		INSERT INTO
+			answer
+			(
+				s_idx,
+				r_idx
+				a_idx,
+				q_idx,
+				i_idx
+			)
+			VALUES
+				(
+					#{s_idx},
+					#{r_idx},
+					(SELECT IFNULL(MAX(a_idx) + 1, 1) FROM answer a WHERE r_idx = #{r_idx}),
+					#{q_idx},
+					#{i_idx},
+				)
+
+			<selectKey keyProperty="a_idx" resultType="Integer">
+				SELECT		MAX(a_idx) a_idx 
+				FROM 		answer
+				WHERE 		r_idx = #{r_idx}
+			</selectKey>
+	</insert>
 	
 	
 	

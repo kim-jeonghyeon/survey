@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.survey.example.domain.Answer;
 import com.survey.example.domain.Pagination;
 import com.survey.example.domain.Question;
+import com.survey.example.domain.Response;
 import com.survey.example.domain.Search;
 import com.survey.example.domain.Survey;
 import com.survey.example.mapper.SurveyMapper;
@@ -62,10 +64,21 @@ public class SurveyServiceImpl implements SurveyService{
 	}
 	
 	@Override
-	public ArrayList<Survey> selectSurvey(Survey survey) {
+	public Survey selectSurvey(Survey survey) {
 		return surveyMapper.selectSurvey(survey);
-		
 	}
 	
+	@Override
+	public void insertAnswer(Answer answer) {
+		surveyMapper.insertAnswer(answer);
+	}
 	
+	@Override
+	public void insertResponse(Response response) {
+		surveyMapper.insertResponse(response);
+		for (Answer answer : response.getAnswerList()) {
+			answer.setR_idx(response.getR_idx());
+			surveyMapper.insertAnswer(answer);
+		}
+	}
 }

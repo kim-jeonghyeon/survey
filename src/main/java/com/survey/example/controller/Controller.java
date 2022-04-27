@@ -183,19 +183,22 @@ public class Controller {
 	
 	@Secured({"ROLE_USER"})
 	@RequestMapping(value="/surveyDetail")
-	public String surveyDetail(Model model,Survey survey,Authentication auth) {
+	public String surveyDetail(Model model,Survey survey) {
 		
-		User user = (User)auth.getPrincipal();
+		survey = surveyservice.selectSurvey(survey);
 		
-		survey.setUser(user);
-		
-		ArrayList<Survey> surveylist = surveyservice.selectSurvey(survey);
-		
-		model.addAttribute("survey",surveylist);
+		model.addAttribute("survey",survey);
 		
 		return "/surveyDetail";
 	}
 	
+	@Secured({"ROLE_USER"})
+	@RequestMapping(value="/survey-process")
+	public String surveyprocess(Model model,Survey survey, Authentication auth) {
+		
+		
+		return "/savesurvey";
+	}
 	
 
 }

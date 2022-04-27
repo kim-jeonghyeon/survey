@@ -12,6 +12,9 @@
 		margin: 0;
 		padding: 0;
 	}
+	ul{
+   		list-style:none;
+   	}
 	body{
 		width:100%;
 		height:100%;
@@ -32,11 +35,12 @@
    	 	border-top:5px solid rgb(103, 58, 183);
 	}
 	.survey{
-		border:none;
-		width:80%;
-		margin:30px 5%;
-		font-size: 25px;
-		border-bottom:1px solid rgba(0,0,0,0.2);
+		border: none;
+	    width: 80%;
+	    margin: 30px 5%;
+	    font-size: 30px;
+	    font-weight: bold;
+	    border-bottom: 1px solid rgba(0,0,0,0.2);
 	}
 	.survey:focus{
 		outline:none;
@@ -68,28 +72,15 @@
 		outline:none;
 	}
 
-	.navi{
-		position:absolute;
-		top:75%;
-		right:20%;
-		background-color: #fff;
-	    width: 150px;
-	    height: 102px;
+	aside{
+		position: absolute;
+	    top: 75%;
+	    right: 22%;
+	    background-color: #fff;
+	    width: 105px;
+	    height: 55px;
 	    border-radius: 10px;
 	    box-shadow: 3px 3px 3px 3px grey;
-	}
-	.a-question{
-		background-color: #fff;
-	    border: none;
-	    font-size: 18px;
-	    text-align: center;
-	    width: 100%;
-	    margin-top: 18px;
-	    cursor: pointer;
-	}
-	.a-question:hover{
-		font-weight:bold;
-		text-decoration:underline;
 	}
 	.submit{
 		background-color: #fff;
@@ -111,51 +102,101 @@
 		margin: 3% 0;
     	width: 80%;
     	border-bottom:1px solid rgba(0,0,0,0.3);
-    	transition:0.2s;
 	}
 	.example:focus{
 		outline:none;
 	}
-	.example:hover{
-		border-bottom:2px solid rgba(103, 58, 183, 0.4);
+	.list{
+		width:100%;
+		float: left;
 	}
-
+	.list > li{
+		height: 30px;
+    	margin: 2% 0;
+	}
+	#long{
+		width:703px;
+		height:150px;
+		resize:none;
+		border:1px solid #f1f2f3;
+		transition:0.5s;
+		cursor: auto;
+	}
+	#li_check{
+		height:230px;
+	}
+	#long:focus{
+		height:210px;
+		border:1px solid #f1f2f3;
+		border-right:2px solid #4285f4;
+   	 	border-bottom:2px solid rgb(103, 58, 183);
+	}
+	#long::-webkit-scrollbar {
+    width: 10px;
+  	}
+  	#long::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  	}
+  	#long::-webkit-scrollbar-track {
+    background-color: #ede7f6;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+  	}
+	
+	
+	
+	#short{
+		width:574px;
+		height:27px;
+		resize:none;
+	}
 </style>
 <body>
 	<h1>설문지</h1>
 	<hr>
-	<div class="t-survey">
-		<input type="text" name="s_title" placeholder="${survey.s_title}" class ="survey" readonly>
-	</div>
-	<%-- <c:forEach items="${question}" var="list">
-		<div>질문</div>
-		<c:forEach items="${question.itemList}" var="item">
-			<div>아이템</div>
-		</c:forEach>
-	
-		
-		<div class="item">
-				<input type="text" name="q_contents" placeholder="${list.q_contents}" class ="question" readonly>
-				<br>
-					<c:choose>
-						<c:when test="${list.q_type eq 'choice'}">
-							<c:forEach items="${item}" var="itemlist">
-								<input type="radio" name="i_contents" placeholder="${itemlist.i_contents}" class ="question" readonly>
-							</c:forEach>
-						</c:when>
-						<c:when test="${list.q_type eq 'checkbox'}">
-							<c:forEach items="${item}" var="itemlist">
-								<input type="checkbox" name="i_contents" placeholder="${itemlist.i_contents}" class ="question" readonly>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-								<input type="text" name="i_contents" class ="question">
-						</c:otherwise>
-					</c:choose>
+	<form action="/survey-process" name="survey" method="post">	
+		<div class="t-survey">
+			<input type="text" name="s_title" placeholder="제목:&nbsp;${survey.s_title}" class ="survey" readonly>
 		</div>
-	</c:forEach> --%>
-	<div class="navi">
-		<button type="button" class="submit">작성하기</button>
-	</div>
+		<c:forEach items="${survey.questionList}" var="question">
+			<div class="item">
+				<input type="text" name="q_contents" placeholder="${question.q_contents}" class ="question" readonly>
+				<ul class="list">
+					<c:forEach items="${question.itemList}" var="item">
+							<c:choose>
+								<c:when test="${question.q_type eq 'choice'}">
+									<li>
+										<input type="radio" name="i_contents" id="choicelist">
+										<label for="choicelist" class="example">${item.i_contents}</label>
+									</li>
+								</c:when>
+								<c:when test="${question.q_type eq 'checkbox'}">
+									<li>
+										<input type="checkbox" name="i_contents" id="checkboxlist">
+										<label for="checkboxlist" class="example">${item.i_contents}</label>
+									</li>
+								</c:when>
+								<c:when test="${question.q_type eq 'long'}">
+									<li id="li_check">
+										<textarea placeholder="장문형 텍스트" class="example" id="long" name="i_contents"></textarea>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li>
+										<textarea placeholder="단답형 텍스트" class="example" id="short" name="i_contents"></textarea>
+									</li>
+								</c:otherwise>
+							</c:choose>
+					</c:forEach>
+				</ul>
+			</div>
+		</c:forEach>
+		<aside>
+			<button type="button" class="submit">작성하기</button>
+		</aside>
+	</form>
 </body>
 </html>

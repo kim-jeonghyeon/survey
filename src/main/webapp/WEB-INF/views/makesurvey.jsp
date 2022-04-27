@@ -95,7 +95,7 @@
 		font-weight:bold;
 		border:2px solid rgba(0,0,0,0.3);
 	}
-	.navi{
+	aside{
 		position:absolute;
 		top:75%;
 		right:20%;
@@ -190,10 +190,10 @@
 		</div>	
 	</div>
 			
-	<div class="navi">
+	<aside>
 		<button type = "button" class = "a-question">질문 추가하기</button>
 		<button type="button" class="submit">작성하기</button>
-	</div>
+	</aside>
 	
 <script>
 $(document).on('change', '.q-option', function () {
