@@ -272,8 +272,8 @@ $(document).on('click', '.submit', function () {
 				
 					
 					let item = {
-							i_contents : $i_contents.val(),
-					}
+							i_contents : $i_contents.val()
+					};
 					
 					question.itemList.push(item);
 

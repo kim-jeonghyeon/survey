@@ -113,7 +113,7 @@
 			</selectKey>
 	</insert>
 	
-	<insert id="insertItem" parameterType="item">
+	<insert id="insertItem" parameterType="question">
 		INSERT INTO
 			item
 			(
@@ -237,16 +237,10 @@
 				(
 					#{s_idx},
 					#{r_idx},
-					(SELECT IFNULL(MAX(a_idx) + 1, 1) FROM answer a WHERE r_idx = #{r_idx}),
+					(SELECT IFNULL(MAX(answer.a_idx) + 1, 1) FROM answer a WHERE r_idx = #{r_idx}),
 					#{q_idx},
 					#{i_idx},
 				)
-
-			<selectKey keyProperty="a_idx" resultType="Integer">
-				SELECT		MAX(a_idx) a_idx 
-				FROM 		answer
-				WHERE 		r_idx = #{r_idx}
-			</selectKey>
 	</insert>
 	
 	

@@ -155,48 +155,100 @@
 	}
 </style>
 <body>
+	<input type="hidden" class="s_idx" name="s_idx" value="${survey.s_idx}">
 	<h1>설문지</h1>
-	<hr>
-	<form action="/survey-process" name="survey" method="post">	
-		<div class="t-survey">
-			<input type="text" name="s_title" placeholder="제목:&nbsp;${survey.s_title}" class ="survey" readonly>
+	<hr>	
+	<div class="t-survey">
+		<input type="text" name="s_title" placeholder="제목:&nbsp;${survey.s_title}" class ="survey" readonly>
+	</div>
+	<c:forEach items="${survey.questionList}" var="question" >
+		<div class="item">
+			<input type="hidden" name="q_idx" class="qidx" value="${question.q_idx}">
+			<input type="text" name="q_contents" placeholder="${question.q_contents}" class ="question" readonly>
+			<ul class="list">
+				<c:forEach items="${question.itemList}" var="item">
+					<c:choose>
+						<c:when test="${question.q_type eq 'choice'}">
+							<li>
+								<input type="hidden" name="i_idx" class="i_idx" value="${item.i_idx}">
+								<input type="radio" name="i_contents" id="choicelist">
+								<label for="choicelist" class="example" name="i_idx">${item.i_contents}</label>
+							</li>
+						</c:when>
+						<c:when test="${question.q_type eq 'checkbox'}">
+							<li>
+							<input type="hidden" name="i_idx" class="i_idx" value="${item.i_idx}">
+							<input type="checkbox" name="i_contents" id="checkboxlist">
+							<label for="checkboxlist" class="example" name="i_idx">${item.i_contents}</label>
+							</li>
+						</c:when>
+						<c:when test="${question.q_type eq 'long'}">
+							<li id="li_check">
+								<textarea placeholder="장문형 텍스트" class="example" id="log" name="i_contents" name="i_idx"></textarea>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li>
+								<textarea placeholder="단답형 텍스트" class="example" id="short" name="i_contents" name="i_idx"></textarea>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</ul>
 		</div>
-		<c:forEach items="${survey.questionList}" var="question">
-			<div class="item">
-				<input type="text" name="q_contents" placeholder="${question.q_contents}" class ="question" readonly>
-				<ul class="list">
-					<c:forEach items="${question.itemList}" var="item">
-							<c:choose>
-								<c:when test="${question.q_type eq 'choice'}">
-									<li>
-										<input type="radio" name="i_contents" id="choicelist">
-										<label for="choicelist" class="example">${item.i_contents}</label>
-									</li>
-								</c:when>
-								<c:when test="${question.q_type eq 'checkbox'}">
-									<li>
-										<input type="checkbox" name="i_contents" id="checkboxlist">
-										<label for="checkboxlist" class="example">${item.i_contents}</label>
-									</li>
-								</c:when>
-								<c:when test="${question.q_type eq 'long'}">
-									<li id="li_check">
-										<textarea placeholder="장문형 텍스트" class="example" id="long" name="i_contents"></textarea>
-									</li>
-								</c:when>
-								<c:otherwise>
-									<li>
-										<textarea placeholder="단답형 텍스트" class="example" id="short" name="i_contents"></textarea>
-									</li>
-								</c:otherwise>
-							</c:choose>
-					</c:forEach>
-				</ul>
-			</div>
-		</c:forEach>
-		<aside>
-			<button type="button" class="submit">작성하기</button>
-		</aside>
-	</form>
+	</c:forEach>
+	<aside>
+		<button type="button" class="submit">작성하기</button>
+	</aside>
+	
+<script>
+$(document).on('click','.submit',function(){
+
+	let response={
+			s_idx : $(".s_idx").val(),
+			answerList : []
+	};
+
+	
+	$(".item").each(function(){
+
+		let $a_answer = $(this).find('textarea[name="i_contents"]');
+		
+		if($(this).find('textarea[name="i_contents"]') == true){
+			let answer = {
+					q_idx : $(this).find('input[name="q_idx"]').val(),
+					i_idx : $(this).find('input[name="i_idx"]').val(),
+					a_answer : $(this).find('textarea[name="i_contents"]').val()
+			};
+		}else{
+			let answer = {
+					q_idx : $(this).find('input[name="q_idx"]').val(),
+					i_idx : $(this).find('input[name="i_idx"]').val()
+			};
+		}
+				
+		response.answerList.push(answer);
+	});
+	
+	
+	console.log(response);
+
+
+	
+/* 	
+	let responsesurvey = JSON.stringify(response);
+	
+	$.ajax({
+		method: "POST",
+		url: "/responseprocess",
+		data: responsesurvey,
+		contentType : "application/json; charset=utf-8",
+		success: function(data) {
+			let url = "/savesurvey";
+			location.replace(url);
+		}
+	}); */
+})
+</script>
 </body>
 </html>

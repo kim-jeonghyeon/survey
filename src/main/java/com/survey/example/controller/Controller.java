@@ -20,8 +20,10 @@ import com.survey.example.domain.User;
 import com.survey.example.domain.Survey;
 import com.survey.example.domain.Pagination;
 import com.survey.example.domain.Search;
+import com.survey.example.domain.Answer;
 import com.survey.example.domain.Item;
 import com.survey.example.domain.Question;
+import com.survey.example.domain.Response;
 import com.survey.example.service.UserService;
 import com.survey.example.service.SurveyService;
 
@@ -193,10 +195,15 @@ public class Controller {
 	}
 	
 	@Secured({"ROLE_USER"})
-	@RequestMapping(value="/survey-process")
-	public String surveyprocess(Model model,Survey survey, Authentication auth) {
+	@RequestMapping(value="/responseprocess")
+	public String responseprocess(Model model,Response response, Authentication auth) {
+		User user = (User)auth.getPrincipal();
 		
+		response.setU_idx(user.getU_idx());
 		
+		surveyservice.insertResponse(response);
+		
+		model.addAttribute("response", response);
 		return "/savesurvey";
 	}
 	

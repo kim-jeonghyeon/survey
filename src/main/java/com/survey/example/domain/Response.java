@@ -7,9 +7,7 @@ public class Response {
 	private int s_idx;
 	private int u_idx;
 	
-	private Survey survey;
-	private User user;
-	private List<Answer> answerList;
+	private List<Answer>answerList;
 	
 	public int getR_idx() {
 		return r_idx;
@@ -29,24 +27,10 @@ public class Response {
 	public void setU_idx(int u_idx) {
 		this.u_idx = u_idx;
 	}
-	
-	
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
 	public List<Answer> getAnswerList() {
 		return answerList;
 	}
 	public void setAnswerList(List<Answer> answerList) {
 		this.answerList = answerList;
-	}
-	public Survey getSurvey() {
-		return survey;
-	}
-	public void setSurvey(Survey survey) {
-		this.survey = survey;
 	}
 }

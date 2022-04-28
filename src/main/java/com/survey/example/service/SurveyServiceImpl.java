@@ -76,7 +76,7 @@ public class SurveyServiceImpl implements SurveyService{
 	@Override
 	public void insertResponse(Response response) {
 		surveyMapper.insertResponse(response);
-		for (Answer answer : response.getAnswerList()) {
+		for(Answer answer : response.getAnswerList()) {
 			answer.setR_idx(response.getR_idx());
 			surveyMapper.insertAnswer(answer);
 		}

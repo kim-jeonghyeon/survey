@@ -6,7 +6,8 @@ public class Answer {
 	private int q_idx;
 	private int i_idx;
 	private int r_idx;
-	
+	private String a_answer;
+	private Response response;
 	
 	public int getA_idx() {
 		return a_idx;
@@ -38,4 +39,17 @@ public class Answer {
 	public void setR_idx(int r_idx) {
 		this.r_idx = r_idx;
 	}
+	public Response getResponse() {
+		return response;
+	}
+	public void setResponse(Response response) {
+		this.response = response;
+	}
+	public String getA_answer() {
+		return a_answer;
+	}
+	public void setA_answer(String a_answer) {
+		this.a_answer = a_answer;
+	}
+	
 }
