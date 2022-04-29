@@ -1,5 +1,7 @@
 package com.survey.example.domain;
 
+import java.util.List;
+
 public class Answer {
 	private int a_idx;
 	private int s_idx;
@@ -8,6 +10,7 @@ public class Answer {
 	private int r_idx;
 	private String a_answer;
 	private Response response;
+	private List<AnswerItem> answerItem;
 	
 	public int getA_idx() {
 		return a_idx;
@@ -52,4 +55,10 @@ public class Answer {
 		this.a_answer = a_answer;
 	}
 	
+	public List<AnswerItem> getAnswerItem() {
+		return answerItem;
+	}
+	public void setAnswerItem(List<AnswerItem> answerItem) {
+		this.answerItem = answerItem;
+	}
 }

@@ -231,7 +231,8 @@
 				r_idx
 				a_idx,
 				q_idx,
-				i_idx
+				i_idx,
+				a_answer
 			)
 			VALUES
 				(
@@ -239,7 +240,8 @@
 					#{r_idx},
 					(SELECT IFNULL(MAX(answer.a_idx) + 1, 1) FROM answer a WHERE r_idx = #{r_idx}),
 					#{q_idx},
-					#{i_idx},
+					#{answeritem.i_idx},
+					#{answeritem.i_contents}
 				)
 	</insert>
 	

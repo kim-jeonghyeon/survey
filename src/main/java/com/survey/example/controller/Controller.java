@@ -196,7 +196,7 @@ public class Controller {
 	
 	@Secured({"ROLE_USER"})
 	@RequestMapping(value="/responseprocess")
-	public String responseprocess(Model model,Response response, Authentication auth) {
+	public String responseprocess(Model model, @RequestBody Response response, Authentication auth) {
 		User user = (User)auth.getPrincipal();
 		
 		response.setU_idx(user.getU_idx());

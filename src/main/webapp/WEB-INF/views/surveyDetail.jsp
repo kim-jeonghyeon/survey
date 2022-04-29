@@ -169,26 +169,24 @@
 				<c:forEach items="${question.itemList}" var="item">
 					<c:choose>
 						<c:when test="${question.q_type eq 'choice'}">
-							<li>
-								<input type="hidden" name="i_idx" class="i_idx" value="${item.i_idx}">
-								<input type="radio" name="i_contents" id="choicelist">
+							<li class="itemlist">
+								<input type="radio" name="i_contents" class="choicelist" value="${item.i_idx}">
 								<label for="choicelist" class="example" name="i_idx">${item.i_contents}</label>
 							</li>
 						</c:when>
 						<c:when test="${question.q_type eq 'checkbox'}">
-							<li>
-							<input type="hidden" name="i_idx" class="i_idx" value="${item.i_idx}">
-							<input type="checkbox" name="i_contents" id="checkboxlist">
+							<li class="itemlist">
+							<input type="checkbox" name="i_contents" class="checkboxlist" value="${item.i_idx}">
 							<label for="checkboxlist" class="example" name="i_idx">${item.i_contents}</label>
 							</li>
 						</c:when>
 						<c:when test="${question.q_type eq 'long'}">
-							<li id="li_check">
+							<li class="itemlist" id="li_check">
 								<textarea placeholder="장문형 텍스트" class="example" id="log" name="i_contents" name="i_idx"></textarea>
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li>
+							<li class="itemlist">
 								<textarea placeholder="단답형 텍스트" class="example" id="short" name="i_contents" name="i_idx"></textarea>
 							</li>
 						</c:otherwise>
@@ -212,42 +210,81 @@ $(document).on('click','.submit',function(){
 	
 	$(".item").each(function(){
 
-		let $a_answer = $(this).find('textarea[name="i_contents"]');
-		
-		if($(this).find('textarea[name="i_contents"]') == true){
-			let answer = {
-					q_idx : $(this).find('input[name="q_idx"]').val(),
-					i_idx : $(this).find('input[name="i_idx"]').val(),
-					a_answer : $(this).find('textarea[name="i_contents"]').val()
-			};
-		}else{
-			let answer = {
-					q_idx : $(this).find('input[name="q_idx"]').val(),
-					i_idx : $(this).find('input[name="i_idx"]').val()
-			};
-		}
+		let answer = {
+				q_idx : $(this).find('input[name="q_idx"]').val(),
+				answerItem : []
+		};
+
+
+		let $i_contents = $(this).find('input[name="i_contents"]');
+
 				
+		// 객곽식
+		if($i_contents.hasClass('choicelist') == true){
+			let item ={
+					i_idx : $(".item").find('input[class="choicelist"]:checked').val()
+			}
+			
+			answer.answerItem.push(item);
+
+		//체크박스
+		}else if($i_contents.hasClass('checkboxlist') == true){
+
+			let item ={
+					i_idx : [] 
+			}
+			
+			let $check = $(this).find('input[class="checkboxlist"]:checked');
+			
+			if($check.length > 1){
+				
+				$(this).find('input[class="checkboxlist"]:checked').each(function(){
+
+					let check = $(this).val();
+					item.i_idx.push(check)
+			 })
+
+			 answer.answerItem.push(item);
+			}else{
+				
+				let item = {
+					check : $check.val()
+				}
+				answer.answerItem.push(item);
+			}
+
+		// 단답, 장문	
+		}else{
+			
+			let item ={
+					i_idx : 0,
+					i_contents : $(".item").find('textarea[name="i_contents"]').val()
+			}
+			
+			answer.answerItem.push(item);
+			
+		}
+		
 		response.answerList.push(answer);
 	});
-	
+
+
 	
 	console.log(response);
-
-
 	
-/* 	
-	let responsesurvey = JSON.stringify(response);
+	let surveyDetail = JSON.stringify(response);
+
 	
 	$.ajax({
 		method: "POST",
 		url: "/responseprocess",
-		data: responsesurvey,
+		data: surveyDetail,
 		contentType : "application/json; charset=utf-8",
 		success: function(data) {
 			let url = "/savesurvey";
 			location.replace(url);
 		}
-	}); */
+	});
 })
 </script>
 </body>
