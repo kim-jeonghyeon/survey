@@ -222,7 +222,8 @@ $(document).on('click','.submit',function(){
 		// 객곽식
 		if($i_contents.hasClass('choicelist') == true){
 			let item ={
-					i_idx : $(".item").find('input[class="choicelist"]:checked').val()
+					i_idx : $(".item").find('input[class="choicelist"]:checked').val(),
+					i_contents : ""
 			}
 			
 			answer.answerItem.push(item);
@@ -230,25 +231,27 @@ $(document).on('click','.submit',function(){
 		//체크박스
 		}else if($i_contents.hasClass('checkboxlist') == true){
 
-			let item ={
-					i_idx : [] 
-			}
+			let item ={}
 			
 			let $check = $(this).find('input[class="checkboxlist"]:checked');
 			
 			if($check.length > 1){
-				
+
 				$(this).find('input[class="checkboxlist"]:checked').each(function(){
 
-					let check = $(this).val();
-					item.i_idx.push(check)
-			 })
+					let item = {
+						i_idx : $(this).val(),
+						i_contents : ""	
+					}
+					answer.answerItem.push(item);
+			 	})
 
-			 answer.answerItem.push(item);
+			 /* answer.answerItem.push(item); */
 			}else{
 				
 				let item = {
-					check : $check.val()
+					i_idx : $check.val(),
+					i_contents : ""
 				}
 				answer.answerItem.push(item);
 			}
@@ -274,6 +277,7 @@ $(document).on('click','.submit',function(){
 	
 	let surveyDetail = JSON.stringify(response);
 
+	console.log(surveyDetail);
 	
 	$.ajax({
 		method: "POST",

@@ -20,6 +20,8 @@ import com.survey.example.domain.User;
 import com.survey.example.domain.Survey;
 import com.survey.example.domain.Pagination;
 import com.survey.example.domain.Search;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.survey.example.domain.Answer;
 import com.survey.example.domain.Item;
 import com.survey.example.domain.Question;
@@ -35,6 +37,7 @@ public class Controller {
 	@Autowired UserService userservice;
 	@Autowired SurveyService surveyservice;
 	@Autowired PasswordEncoder passwordEncoder;
+	
 	
 	@RequestMapping("/")
 	public String home(Model model) {
@@ -139,6 +142,31 @@ public class Controller {
 	   return "/surveylist";
 	}
 	
+	@Secured({"ROLE_USER"})
+	@RequestMapping(value="/resultlist")
+	public String resultlist(Model model, Search search,Authentication auth) {
+		int count = 0;
+		User user = (User)auth.getPrincipal(); 
+		
+		search.setUser(user);
+		
+		count = surveyservice.getSurveyCount(search);
+		
+		Pagination pagination = new Pagination();
+		pagination.setCount(count);
+		pagination.setPage(search.getPage());
+		pagination.init();
+		pagination.setSearch(search);
+		
+		ArrayList<Survey> survey = surveyservice.selectSurveyList(pagination);
+		
+		model.addAttribute("survey",survey);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("count",count);
+
+	   return "/resultlist";
+	}
+	
 	@RequestMapping(value="/surveyprocess")
 	public String surveyprovess(Model model, @RequestBody Survey survey, Authentication auth) {
 		
@@ -208,4 +236,19 @@ public class Controller {
 	}
 	
 
+	@Secured({"ROLE_USER"})
+	@RequestMapping(value="/surveyresult")
+	public String surveyresult(Model model,Survey survey) throws JsonProcessingException {
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		survey = surveyservice.selectSurvey(survey);
+		
+		String surveyString = objectMapper.writeValueAsString(survey);
+		
+		model.addAttribute("survey", survey);
+		model.addAttribute("surveyjson", surveyString);
+		return "/surveyresult";	}
+	
+	
 }

@@ -228,21 +228,26 @@
 			answer
 			(
 				s_idx,
-				r_idx
+				r_idx,
 				a_idx,
 				q_idx,
 				i_idx,
 				a_answer
 			)
 			VALUES
+			<foreach collection="answerItem" item="item" separator="," index="i">
 				(
 					#{s_idx},
 					#{r_idx},
-					(SELECT IFNULL(MAX(answer.a_idx) + 1, 1) FROM answer a WHERE r_idx = #{r_idx}),
+					#{a_idx},
 					#{q_idx},
-					#{answerItem.i_idx},
-					#{answerItem.i_contents}
+					#{item.i_idx},
+					#{item.i_contents}
 				)
+				</foreach>
+			<selectKey keyProperty="a_idx" resultType="Integer">
+				SELECT LAST_INSERT_ID()
+			</selectKey>
 	</insert>
 	
 	
