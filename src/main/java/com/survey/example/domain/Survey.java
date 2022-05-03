@@ -76,6 +76,7 @@ public class Survey implements PaginationObject {
 		this.search = search;
 	}
 	
+	
 	@Override
 	public int getPk() {
 		return s_idx;

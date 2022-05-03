@@ -56,55 +56,69 @@
 	<h1>설문 결과</h1>
 	<hr>
 	<div class="t-survey">
-		<input type="text" placeholder="${survey.s_title}" class ="survey">
+		<input type="text" placeholder="" class ="survey">
 	</div>
-	<ul class="main">
+	<%-- <ul class="main">
 		<c:forEach items="${survey.questionList}" var="question">
 			<input type="hidden" name="q_idx" value="${question.q_idx}">
 			<input type="hidden" name="q_contents" value="${question.q_contents}">
-			<%-- <input type="hidden" name="i_contents" value="${question.itemList.i_contents}"> --%>
+			<input type="hidden" name="i_contents" value="${question.itemList.i_contents}">
 			<li id="Sarah_chart_div"></li>
 			<li id="Anthony_chart_div"></li>
 		    <li id="third_chart_div"></li>
 	    </c:forEach>
-    </ul>
-	<script>
-    	//구글차트 
-    	/* $().each(function(){
-        }); */
+    </ul> --%>
+<script>
+	//구글차트 
+
+	let surveyObj = ${survey};
+	let responseObj = ${response};
+
+	console.log(surveyObj);
+	console.log(responseObj);
+	
+
+	
+		for(var i = 0; i < surveyObj.questionList.length; i++){
+			
+			google.charts.load('current', {'packages':['corechart']}); 
+	        google.charts.setOnLoadCallback(drawSarahChart);
+			
+			function drawSarahChart() {
+				
+
+	        	var data = new google.visualization.DataTable();
+	        	
+	            data.addColumn('string', 'Topping');
+	            data.addColumn('number', 'Slices');
+	            
+	            data.addRows([
+	              [surveyObj.questionList.itemList, 3],
+	              ['Onions', 1],
+	              ['Olives', 1], 
+	              ['Zucchini', 1],
+	              ['Pepperoni', 2]
+	            ]);
+
+
+	            // 그래프 옵션 지정
+	            var options = {'title':'How Much Pizza Anthony Ate Last Night',
+	                    width:763,
+	                    height:450
+	                    };
+
+	            var chart = new google.visualization.PieChart(document.getElementById('Sarah_chart_div'));
+	            chart.draw(data, options);
+	            
+	        }
+		}
+		
         
-    	google.charts.load('current', {'packages':['corechart']}); 
-    	
-        google.charts.setOnLoadCallback(drawSarahChart);
+    	/* 
         google.charts.setOnLoadCallback(drawAnthonyChart);
         google.charts.setOnLoadCallback(drawthirdChart);
 
-        function drawSarahChart() {
-
-        	var data = new google.visualization.DataTable();
-        	
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
-            
-            data.addRows([
-              ['Mushrooms', 3],
-              ['Onions', 1],
-              ['Olives', 1], 
-              ['Zucchini', 1],
-              ['Pepperoni', 2]
-            ]);
-
-
-            // 그래프 옵션 지정
-            var options = {'title':'How Much Pizza Anthony Ate Last Night',
-                    width:763,
-                    height:450
-                    };
-
-            var chart = new google.visualization.PieChart(document.getElementById('Sarah_chart_div'));
-            chart.draw(data, options);
-            
-        }
+       
 
 
 
@@ -153,7 +167,12 @@
             var chart = new google.visualization.PieChart(document.getElementById('third_chart_div'));
             chart.draw(data, options);
           }
- 
+
+ */
+
+
+
+		 
  
 	</script>
 </body>

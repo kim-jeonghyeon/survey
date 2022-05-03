@@ -22,6 +22,7 @@ import com.survey.example.domain.Pagination;
 import com.survey.example.domain.Search;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.survey.example.domain.Answer;
 import com.survey.example.domain.Item;
 import com.survey.example.domain.Question;
@@ -238,16 +239,20 @@ public class Controller {
 
 	@Secured({"ROLE_USER"})
 	@RequestMapping(value="/surveyresult")
-	public String surveyresult(Model model,Survey survey) throws JsonProcessingException {
+	public String surveyresult(Model model,Response response, Survey survey) throws JsonProcessingException {
 		
-		ObjectMapper objectMapper = new ObjectMapper();
-		
+		response = surveyservice.selectresult(response);
 		survey = surveyservice.selectSurvey(survey);
 		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String responseString = objectMapper.writeValueAsString(response);
 		String surveyString = objectMapper.writeValueAsString(survey);
 		
-		model.addAttribute("survey", survey);
-		model.addAttribute("surveyjson", surveyString);
+		
+		System.out.println(surveyString);
+		
+		model.addAttribute("response", responseString);
+		model.addAttribute("survey", surveyString);
 		return "/surveyresult";	}
 	
 	

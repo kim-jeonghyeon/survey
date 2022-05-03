@@ -20,4 +20,5 @@ public interface SurveyService {
 	public Survey selectSurvey(Survey survey);
 	public void insertAnswer(Answer answer);
 	public void insertResponse(Response response);
+	public Response selectresult(Response response);
 }

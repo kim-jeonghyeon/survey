@@ -31,8 +31,38 @@
   				<result column="i_contents" property="i_contents"/>  			
   			</collection>
   		</collection>
-  		
+ 		
 	</resultMap>
+	
+	
+	<resultMap type="Response" id="selectresultMap">
+		<result column="r_idx" property="r_idx"/>
+		<result column="s_idx" property="s_idx"/>
+		<result column="u_idx" property="u_idx"/>
+		
+		<association property="survey" javaType="Survey">
+			<id property="id" column="survey_id"/>
+    		<result column="s_idx" property="s_idx"/>
+    		<result column="s_title" property="s_title"/>
+  		</association>
+		
+		<collection property="answerList" column="s_idx" javaType="java.util.ArrayList" ofType="Answer">
+			<result column="a_idx" property="a_idx"/>
+  			<result column="s_idx" property="s_idx"/>
+  			<result column="q_idx" property="q_idx"/>
+  			<result column="i_idx" property="i_idx"/>
+  			<result column="r_idx" property="r_idx"/>
+  			<result column="a_answer" property="a_answer"/>
+  			
+  			<collection property="answerItem" column="i_idx" javaType="java.util.ArrayList" ofType="AnswerItem">
+  				<result column="i_idx" property="i_idx"/>
+  				<result column="i_contents" property="i_contents"/>  			
+  			</collection>  			
+  		</collection>
+		
+	</resultMap>
+
+
 	
 	
 	<!-- 설문지 상세보기  -->
@@ -46,6 +76,16 @@
 		ORDER BY 	tb.q_idx ASC, tc.i_idx ASC 
 	</select>
 	
+	
+	<!-- 설문지 결과-->
+	<select id="selectresult" resultType="Response" resultMap="selectresultMap">
+		SELECT		*
+		FROM		response ta
+		LEFT JOIN	survey tc ON ta.s_idx = tc.s_idx
+		LEFT JOIN	question tb ON ta.s_idx = tb.s_idx
+		LEFT JOIN	answer te ON ta.s_idx = te.s_idx AND tb.q_idx = te.q_idx
+		WHERE 		ta.s_idx = 199
+	</select>
 	
 	
 	<!-- 설문지 리스트  -->	

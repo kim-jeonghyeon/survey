@@ -9,7 +9,6 @@ public class Answer {
 	private int i_idx;
 	private int r_idx;
 	private String a_answer;
-	private Response response;
 	private List<AnswerItem> answerItem;
 	
 	public int getA_idx() {
@@ -41,12 +40,6 @@ public class Answer {
 	}
 	public void setR_idx(int r_idx) {
 		this.r_idx = r_idx;
-	}
-	public Response getResponse() {
-		return response;
-	}
-	public void setResponse(Response response) {
-		this.response = response;
 	}
 	public String getA_answer() {
 		return a_answer;

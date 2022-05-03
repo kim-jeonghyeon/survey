@@ -69,6 +69,11 @@ public class SurveyServiceImpl implements SurveyService{
 	}
 	
 	@Override
+	public Response selectresult(Response response) {
+		return surveyMapper.selectresult(response);
+	}
+	
+	@Override
 	public void insertAnswer(Answer answer) {
 		surveyMapper.insertAnswer(answer);
 	}

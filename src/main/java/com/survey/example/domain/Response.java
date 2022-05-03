@@ -6,7 +6,7 @@ public class Response {
 	private int r_idx;
 	private int s_idx;
 	private int u_idx;
-	
+	private Survey survey;
 	private List<Answer>answerList;
 	
 	public int getR_idx() {
@@ -32,5 +32,11 @@ public class Response {
 	}
 	public void setAnswerList(List<Answer> answerList) {
 		this.answerList = answerList;
+	}
+	public Survey getSurvey() {
+		return survey;
+	}
+	public void setSurvey(Survey survey) {
+		this.survey = survey;
 	}
 }
