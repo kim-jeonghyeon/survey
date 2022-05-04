@@ -3,7 +3,6 @@ package com.survey.example.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,19 +15,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.survey.example.domain.User;
-import com.survey.example.domain.Survey;
-import com.survey.example.domain.Pagination;
-import com.survey.example.domain.Search;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.survey.example.domain.Answer;
-import com.survey.example.domain.Item;
-import com.survey.example.domain.Question;
+import com.survey.example.domain.Pagination;
 import com.survey.example.domain.Response;
-import com.survey.example.service.UserService;
+import com.survey.example.domain.Search;
+import com.survey.example.domain.Survey;
+import com.survey.example.domain.User;
 import com.survey.example.service.SurveyService;
+import com.survey.example.service.UserService;
 
 
 @org.springframework.stereotype.Controller
